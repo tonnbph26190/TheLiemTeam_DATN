@@ -1,0 +1,327 @@
+﻿@using System.Globalization
+@using static DataAccessLayer.Entity.Voucher
+@using static DataAccessLayer.Entity.Base.EnumBase
+ @model IEnumerable<BusinessLogicLayer.Viewmodels.VoucherM.GetAllVoucherVM>
+ @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_layoutAdmin.cshtml";
+}
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+@* @if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+} *@
+<h2>Quản lí voucher</h2>
+<div class="row element-button">
+    <div class="col-md-2">
+        <a class="btn btn-add btn-sm" asp-area="Admin" asp-controller="Voucher" asp-action="Create" title="Thêm">
+            <i class="fas fa-plus"></i>
+            Tạo mới voucher
+        </a>
+
+    </div>
+    <div class="col-sm-4">
+        <form id="searchForm" method="get" action="@Url.Action("SearchVouchers", "Voucher", new { area = "Admin" })">
+            <div class="input-group">
+                <input type="text" name="input" class="form-control" placeholder="Tìm kiếm theo mã hoặc tên" />
+                <div class="input-group-append">
+                    <button class="btn btn-primary" type="submit">Tìm kiếm</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="col-sm-3">
+        <form id="searchByDateForm" method="get" action="@Url.Action("SearchByDate", "Voucher", new { area = "Admin" })">
+            <div class="input-group">
+                <input type="date" name="startDate" class="form-control" placeholder="Ngày bắt đầu" />
+                <input type="date" name="endDate" class="form-control" placeholder="Ngày kết thúc" />
+                <div class="input-group-append">
+                    <button class="btn btn-secondary" type="submit">Tìm kiếm theo ngày</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <form id="searchForm" method="get" action="@Url.Action("SearchByStatus", "Voucher", new { area = "Admin" })">
+        <div class="input-group">
+            <select name="isActive" class="form-control">
+                <option value="5">Chọn trạng thái</option>
+                <option value="0">Chưa bắt đầu</option>
+                <option value="1">Đang diễn ra</option>
+                <option value="2">Đã kết thúc</option>
+            </select>
+            <div class="input-group-append">
+                <button class="btn btn-primary" type="submit">Tìm kiếm</button>
+            </div>
+        </div>
+    </form>
+</div>
+<table id="voucherTable" class="table">
+    <thead>
+        <tr>
+
+            <th>
+                STT
+            </th>
+            <th>
+                Mã voucher
+            </th>
+            <th>
+                Tên voucher
+            </th>
+            <th>
+                Ngày bắt đầu
+            </th>
+            <th>
+                Ngày kết thúc
+            </th>
+            <th>
+                Số lượng
+            </th>
+            <th>
+                Loại giảm giá
+            </th>
+            <th>
+                Kiểu voucher
+            </th>
+            <th>
+                Số tiền Chi tối thiểu
+            </th>
+            <th>
+                Số tiền giảm tối đa
+            </th>
+            <th>
+                Giá trị giảm
+            </th>
+            
+            <th>
+                Trạng thái hoạt động
+            </th>
+
+            
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            int count = 1;
+        }
+        @foreach (var item in Model)
+        {
+            <tr data-id="@item.ID">
+                <td>
+                    @count
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Code)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StartDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EndDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quantity)
+                </td>
+                <td>
+                    @if (item.Type == Types.Percent)
+                    {
+                        <text>Phần trăm</text>
+                    }
+                    else if (item.Type == Types.Cash)
+                    {
+                        <text>Tiền mặt</text>
+                    }
+                    else
+                    {
+                        <text>Không xác định</text>
+                    }
+                </td>
+                <td class="status">
+                    @if (item.Status == 0)
+                    {
+                        <p>Công khai</p>
+                    }
+                    else if (item.Status == 1)
+                    {
+                        <p>Không công khai</p>
+                    }
+                </td>
+                <td>
+                    @item.MinimumAmount.ToString("N0", new CultureInfo("vi-VN")) . " VNĐ"
+                </td>
+                <td>
+                    @item.MaximumAmount.ToString("N0", new CultureInfo("vi-VN")) . " VNĐ"
+                </td>
+                <td>
+                    @if (item.Type == Types.Percent)
+                    {
+                        @Html.Raw(item.ReducedValue.ToString("N0") + " %")
+                    }
+                    else if (item.Type == Types.Cash)
+                    {
+                        @Html.Raw(item.ReducedValue.ToString("N0", new CultureInfo("vi-VN")) + " VNĐ")
+                    }
+                    else
+                    {
+                        <text>Không xác định</text>
+                    }
+                </td>
+                <td class="status-cell">
+                    @(item.IsActive == StatusVoucher.HasntStartedYet ? "Chưa bắt đầu" : item.IsActive == StatusVoucher.IsBeginning ? "Đang diễn ra" : "Đã kết thúc")
+                </td>
+               
+                <td>
+                    <a asp-action="UpdateVoucherUser" asp-route-id="@item.ID" class="btn btn-warning btn-update">Cập nhật</a> 
+                    <a asp-action="Detail" asp-route-id="@item.ID" class="btn btn-info">Chi tiết</a> 
+                    <form asp-action="ToggleStatus" asp-controller="Voucher" asp-route-id="@item.ID" method="post" class="btn-toggle" id="toggleForm-@item.ID" style="display:inline;">
+                        <input type="hidden" name="id" value="@item.ID" />
+
+                        <input style="display: none;" type="checkbox" id="toggle-@item.ID" onchange="toggleVoucherStatus('@item.ID');"
+                        @(item.IsActive == StatusVoucher.HasntStartedYet || item.IsActive == StatusVoucher.IsBeginning ? "checked" : "") />
+                        <label for="toggle-@item.ID" class="btn btn-primary btn-sm">
+                            <i id="toggleIcon-@item.ID" class="fas @(item.IsActive == StatusVoucher.HasntStartedYet || item.IsActive == StatusVoucher.IsBeginning ? "fa-toggle-on" : "fa-toggle-off")"></i>
+                        </label>
+                    </form>
+                </td>
+
+            </tr>
+            count++;
+        }       
+    </tbody>
+</table>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.7/signalr.min.js"></script>
+
+<script type="text/javascript">
+    const StatusVoucher = {
+        HasntStartedYet: 0,
+        IsBeginning: 1,
+        Finished: 2
+    };
+    function confirmDelete() {
+        return confirm("Bạn có chắc chắn muốn xóa không?");
+    }
+
+    function updateStatus(id) {
+        const statusInput = document.getElementById(`statusInput-${id}`);
+        const checkbox = document.getElementById(`toggle-${id}`);
+
+        if (checkbox.checked) {
+            // Nếu checkbox được chọn, giá trị là 1
+            statusInput.value = 1; // IsBeginning
+        } else {
+            // Nếu checkbox không được chọn, giá trị là 2
+            statusInput.value = 2; // Finished
+        }
+
+        document.getElementById(`toggleForm-${id}`).submit();
+    }
+
+    function toggleVoucherStatus(id) {
+        var form = document.getElementById('toggleForm-' + id);
+        form.submit();
+    }
+
+
+    function autoUpdateVoucherStatus() {
+        $.ajax({
+            url: 'https://localhost:7241/api/VoucherM/update-status',
+            type: 'POST',
+            success: function (response) {
+                console.log(response.message);
+                refreshVoucherStatus();
+            },
+            error: function (xhr, status, error) {
+                console.error('Error updating voucher status:', error);
+            }
+        });
+    }
+
+    function refreshVoucherStatus() {
+        $.ajax({
+            url: 'https://localhost:7241/api/VoucherM/getall?_=' + new Date().getTime(),
+            type: 'GET',
+            success: function (data) {
+                console.log("Data from API:", data); // Kiểm tra dữ liệu trả về
+
+                data.forEach(function (item) {
+                    const statusText = item.isActive === 0 ? 'Chưa bắt đầu' :
+                        item.isActive === 1 ? 'Đang diễn ra' :
+                            'Đã kết thúc';
+
+                    const $row = $(`#voucherTable tbody tr[data-id="${item.id}"]`);
+
+                    if ($row.length) {
+                        $row.find('td:nth-child(12)').text(statusText); // Cập nhật nội dung cột trạng thái
+
+                        const $toggle = $row.find('input[type="checkbox"]');
+                        const $toggleIcon = $row.find('.fas');
+
+                        if (item.isActive !== 2) {
+                            $toggle.prop('checked', true);
+                            $toggleIcon.removeClass('fa-toggle-off').addClass('fa-toggle-on');
+                        } else {
+                            $toggle.prop('checked', false);
+                            $toggleIcon.removeClass('fa-toggle-on').addClass('fa-toggle-off');
+                        }
+                    }
+                });
+            },
+            error: function (xhr, status, error) {
+                console.error('Error refreshing voucher list:', error);
+            }
+        });
+    }
+    document.querySelectorAll(".btn-add, .btn-update").forEach(function (button) {
+        button.addEventListener("click", handleSimpleAction);
+    });
+
+    function handleSimpleAction(event) {
+        event.preventDefault(); // Ngăn chặn hành vi mặc định của thẻ a
+
+        const url = this.href;
+
+        fetch(url, {
+            method: 'GET'
+        })
+            .then(response => {
+                if (response.status === 403) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Không có quyền!',
+                        text: 'Bạn không có quyền thực hiện hành động này.'
+                    });
+                    throw new Error('Forbidden');
+                } else if (response.ok) {
+                    window.location.href = url; // Chuyển hướng nếu yêu cầu thành công
+                } else {
+                    return response.text().then(text => {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Lỗi!',
+                            text: text || 'Có lỗi xảy ra khi gửi yêu cầu.'
+                        });
+                        throw new Error(text);
+                    });
+                }
+            })
+            .catch(error => {
+                console.error("Fetch error:", error.message);
+            });
+    }
+    
+
+
+    setInterval(autoUpdateVoucherStatus, 5000);
+    setInterval(refreshVoucherStatus,5000);
+</script>

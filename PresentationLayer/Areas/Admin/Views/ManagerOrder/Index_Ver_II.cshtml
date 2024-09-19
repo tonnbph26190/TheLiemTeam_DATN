@@ -1,0 +1,525 @@
+﻿@{
+    ViewData["Title"] = "Index_Ver_II";
+    Layout = "~/Areas/Admin/Views/Shared/_layoutAdmin.cshtml";
+}
+
+<style>
+
+    .track {
+        border-radius: 0.25rem;
+        display: flex;
+        height: 7px;
+        margin: 50px 0 60px;
+        position: relative;
+    }
+
+        .track .step {
+            flex-grow: 1;
+            margin-top: -18px;
+            position: relative;
+            text-align: center;
+        }
+
+            .track .step.active::before {
+                background: #4CAF50;
+                content: "";
+                height: 7px;
+                left: 0;
+                position: absolute;
+                top: 18px;
+                width: 100%;
+                z-index: -1;
+            }
+
+            .track .step::before {
+                background: #ddd;
+                content: "";
+                height: 7px;
+                left: 0;
+                position: absolute;
+                top: 18px;
+                width: 100%;
+                z-index: -1;
+            }
+
+        .track .icon {
+            background: #ddd;
+            border-radius: 50%;
+            display: inline-block;
+            height: 40px;
+            line-height: 40px;
+            position: relative;
+            width: 40px;
+            z-index: 1;
+        }
+
+        .track .step.active .icon {
+            background: #ff5722;
+        }
+
+        .track .text {
+            color: #6c757d;
+            display: block;
+            margin-top: 7px;
+            position: relative;
+        }
+
+        .track .step.active .text {
+            color: #000;
+            font-weight: 500;
+        }
+
+    .itemside {
+        display: flex;
+        margin-bottom: 15px;
+    }
+
+        .itemside .aside {
+            flex-shrink: 0;
+            margin-right: 15px;
+        }
+
+        .itemside .info {
+            flex-grow: 1;
+            padding-left: 15px;
+        }
+
+    .img-sm {
+        border: 1px solid #ddd;
+        border-radius: 0.25rem;
+        height: 80px;
+        padding: 7px;
+        width: 80px;
+    }
+
+    .itemside .title {
+        color: #212529;
+        display: block;
+        font-weight: 500;
+        margin-bottom: 5px;
+    }
+
+    .itemside .text-muted {
+        color: #6c757d;
+    }
+
+    .btn {
+        border-radius: 0.25rem;
+        color: #ffffff;
+        font-weight: 500;
+        padding: 10px 15px;
+        text-decoration: none;
+        display: inline-block;
+        margin-right: 10px;
+    }
+
+    .btn-warning {
+        background-color: #ff5722;
+        border-color: #ff5722;
+    }
+
+        .btn-warning:hover {
+            background-color: #e64a19;
+            border-color: #e64a19;
+        }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        border-color: #6c757d;
+    }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            border-color: #545b62;
+        }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+
+        .btn-primary:hover {
+            background-color: #0069d9;
+            border-color: #0062cc;
+        }
+
+    hr {
+        border: 0;
+        border-top: 1px solid #eee;
+        margin: 20px 0;
+    }
+
+    .icon-text {
+        margin-left: 5px;
+        vertical-align: middle;
+        color: #212529;
+    }
+
+    .contact-info {
+        display: flex;
+        align-items: center;
+    }
+
+        .contact-info i {
+            margin-right: 5px;
+            color: #ff5722;
+        }
+
+    ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .step {
+        position: relative;
+        transform: translateY(18px);
+    }
+
+    .no-connector::before {
+        background: none !important;
+    }
+
+    .step.no-right-connector::before {
+        width: 50%;
+    }
+
+    .step.no-right-connector .connector,
+    .step.no-connector .connector {
+        display: none;
+    }
+
+    .step:last-child .connector {
+        display: none;
+    }
+
+    .step.active ~ .pointer {
+        display: block;
+    }
+
+    #step-4 .pointer {
+        display: none;
+    }
+
+    #step-3 .pointer {
+        display: block;
+    }
+
+    .track .icon {
+        background: #ddd;
+        border-radius: 50%;
+        display: inline-block;
+        height: 40px;
+        line-height: 40px;
+        position: relative;
+        width: 40px;
+        z-index: 1;
+    }
+
+    .track .step.cancelled .icon {
+        position: relative;
+    }
+
+        .track .step.cancelled .icon::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            border-top: 2px solid red;
+            transform: rotate(-45deg);
+            z-index: 2;
+        }
+
+    .track .step.active .icon {
+        background: #4CAF50;
+    }
+
+    .track .step.cancelled .icon {
+        background: #f44336;
+    }
+
+        .track .step.cancelled .icon i {
+            color: #fff;
+        }
+
+    .track .step:not(.active).cancelled .icon::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 100%;
+        height: 2px;
+        background: red;
+        transform: translate(-50%, -50%) rotate(45deg);
+    }
+
+</style>
+<div class="app-title">
+    <ul class="app-breadcrumb breadcrumb side">
+        <li class="breadcrumb-item active"><a href="#"><b>Danh sách trạng thái đơn hàng</b></a></li>
+    </ul>
+    <div id="clock"></div>
+</div>
+
+<article class="card">
+    <div class="card-body">
+        <table style="width: 100%; border-collapse: collapse;">
+            <thead>
+                <tr>
+                    <th colspan="2">
+                        <h5>
+                            <label>Mã đơn hàng</label>
+                            <label id="hexcode"></label>
+                        </h5>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="width: 30%; vertical-align: middle;">
+                        <i class="fa fa-user icon"></i>
+                        <label for="customer_name" style="font-weight: bold;">Người nhận hàng:</label>
+                    </td>
+                    <td style="width: 70%;">
+                        <input type="text" class="form-control" style="border-radius: 10px; height: 21px; width: 100%;" id="customer_name" />
+                    </td>
+                </tr>
+                <tr>
+                    <td style="vertical-align: middle;">
+                        <i class="fa fa-phone icon"></i>
+                        <label for="customer_phone" style="font-weight: bold;">Số điện thoại:</label>
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" style="border-radius: 10px; height: 21px; width: 100%;" id="customer_phone" />
+                    </td>
+                </tr>
+                <tr>
+                    <td style="vertical-align: middle;">
+                        <i class="fa fa-envelope icon"></i>
+                        <label for="customer_gmail" style="font-weight: bold;">Email:</label>
+                    </td>
+                    <td>
+                        <input type="email" class="form-control" style="border-radius: 10px; height: 21px; width: 100%;" id="customer_gmail" />
+                    </td>
+                </tr>
+                <tr>
+                    <td style="vertical-align: middle;">
+                        <i class="fa fa-money-bill-wave icon"></i>
+                        <label for="total_price" style="font-weight: bold;">Giá trị đơn hàng:</label>
+                    </td>
+                    <td>
+                        <span id="total_price"></span><span id="costs_display_1"></span>
+                        <div id="costs_1" hidden></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><i class="fas fa-tag icon"></i> <label for="voucher_code" style="font-weight: bold;">Mã voucher:</label></td>
+                    <td><div id="voucher_code"></div></td>
+                </tr>
+                <tr>
+                    <td style="vertical-align: middle;">
+                        <label for="shippingadress" style="font-weight: bold;">Địa chỉ giao hàng:</label>
+                    </td>
+                    <td>
+                        <div style="display: flex; align-items: center;">
+                            <input type="text" class="form-control" style="border-radius: 10px; border: 1px solid #ced4da; flex: 1;height: 21px; margin-right: 10px;" id="shippingadress" readonly />
+                            <button id="openAddressModalBtn1" type="button" style="font-size: 14px; background-color: #6c757d; color: #fff; border: none; border-radius: 20px; cursor: pointer; padding: 5px 10px;" class="btn btn-secondary">Chọn địa chỉ</button>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="vertical-align: middle;">
+                        <i class="fas fa-map-marker-alt icon"></i>
+                        <label for="shippingadress2" style="font-weight: bold;">Địa chỉ cụ thể:</label>
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" style="border-radius: 10px;height: 21px; width: 100%;" id="shippingadress2" />
+                    </td>
+                </tr>
+                <tr>
+                    <td style="vertical-align: middle;">
+                        <i class="fa fa-credit-card icon"></i>
+                        <label for="paymentstatus" style="font-weight: bold;">Trạng thái thanh toán:</label>
+                    </td>
+                    <td>
+                        <span id="paymentstatus"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="vertical-align: middle;">
+                        <i class="fas fa-info-circle icon"></i>
+                        <label for="orderstatus" style="font-weight: bold;">Trạng thái đơn hàng:</label>
+                    </td>
+                    <td>
+                        <span id="orderstatus"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="vertical-align: middle;">
+                        <i class="fas fa-truck icon"></i>
+                        <label for="shippingmethod" style="font-weight: bold;">Phương thức giao hàng:</label>
+                    </td>
+                    <td>
+                        <span id="shippingmethod"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="vertical-align: middle;">
+                        <i class="fas fa-tags icon"></i>
+                        <label for="orrdertype" style="font-weight: bold;">Loại đơn hàng:</label>
+                    </td>
+                    <td>
+                        <span id="orrdertype"></span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="track" id="track">
+            <div class="step" id="step-0">
+                <span class="icon">
+                    <i class="fa fa-check"></i>
+                </span>
+                <small class="text">Đặt hàng thành công</small>
+                <small class="time" id="time_success">--:--, --/--/----</small>
+            </div>
+            <div class="step" id="step-1">
+                <span class="icon">
+                    <i class="fa fa-clock"></i>
+                </span>
+                <small class="text">Đã xác nhận</small>
+                <small class="time" id="time_processing">--:--, --/--/----</small>
+            </div>
+            <div class="connector"></div>
+            <div class="step" id="step-2" ">
+                <span class="icon">
+                    <i class="fa fa-truck"></i>
+                </span>
+                <small class="text">Đang vận chuyển</small>
+                <small class="time" id="time_ship">--:--, --/--/----</small>
+            </div>
+            <div class="step no-right-connector" id="step-3">
+                <span class="icon">
+                    <i class="fa fa-box"></i>
+                </span>
+                <small class="text">Hoàn thành</small>
+                <small class="time" id="time_done">--:--, --/--/----</small>
+            </div>
+            <div class="step no-connector" id="cancel-order">
+                <span class="icon">
+                    <i class="fa fa-times"></i>
+                </span>
+                <small class="text">Đã bị hủy</small>
+                <small class="time" id="time_cancel">--:--, --/--/----</small>
+            </div>
+            <div id="pointer" class="pointer"></div>
+        </div>
+
+        <br>
+        <div id="button_update_status_container">
+            <p>Cập nhật trạng thái đơn hàng:</p>
+            <div id="button_update_status"></div>
+        </div>
+        <hr>
+
+        <div class="col-md-12">
+            <h3 class="text-center mb-4">Danh sách sản phẩm trong đơn hàng</h3>
+            <ul class="row" style="list-style-type: none; padding: 0; margin: 0;" id="product_list">
+            </ul>
+        </div>
+
+        <hr>
+        <button class="btn btn-secondary" type="button" id="btn_printf_order_pdf">In đơn</button>
+        <button class="btn btn-primary" type="button" id="btn_update_order">Cập nhật đơn hàng</button>
+    </div>
+</article>
+
+<!-- Modal -->
+<div class="modal fade" id="orderHistoryModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="order-history" id="orderHistorySection">
+                <h2>Lịch sử đơn hàng</h2>
+                <table style="width: 100%; border-collapse: collapse;">
+                    <thead>
+                        <tr>
+                            <th class="col-2" style="border-bottom: 2px solid #ddd; padding: 8px;">Ngày thay đổi</th>
+                            <th class="col-4" style="border-bottom: 2px solid #ddd; padding: 8px;">Lịch sử chỉnh sửa</th>
+                            <th class="col-4" style="border-bottom: 2px solid #ddd; padding: 8px;">Chi tiết chỉnh sửa</th>
+                            <th class="col-4" style="border-bottom: 2px solid #ddd; padding: 8px;">Ghi chú</th>
+                        </tr>
+                    </thead>
+                    <tbody id="orderhistory_body">
+                        <!-- Dữ liệu sẽ được thêm vào đây bằng JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div id="addressModal" class="modal" style="
+    display: none; /* Ẩn modal khi không cần thiết */
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4); /* Màu nền mờ */
+">
+    <div class="modal-dialog modal-lg" style="
+        margin: 15% auto;
+        padding: 20px;
+        width: 80%;
+        background-color: white;
+        border-radius: 4px;
+    ">
+        <div class="modal-content">
+            <span class="close" style="
+                color: #aaa;
+                float: right;
+                font-size: 28px;
+                font-weight: bold;
+                cursor: pointer;
+            ">&times;</span>
+            <h2 style="margin-top: 0;">Chọn địa chỉ giao hàng</h2>
+            <div class="mb-3 row" style="margin-bottom: 15px;">
+                <div class="col-md-4" style="margin-bottom: 10px;">
+                    <label for="city_1" class="form-label">Tỉnh/Thành phố</label>
+                    <select id="city_1" class="form-control" style="width: 100%;">
+                        <option value="">Chọn tỉnh/thành phố</option>
+                    </select>
+                </div>
+                <div class="col-md-4" style="margin-bottom: 10px;">
+                    <label for="district_1" class="form-label">Quận/Huyện</label>
+                    <select id="district_1" class="form-control" style="width: 100%;">
+                        <option value="">Chọn quận/huyện</option>
+                    </select>
+                </div>
+                <div class="col-md-4" style="margin-bottom: 10px;">
+                    <label for="ward_1" class="form-label">Phường/Xã</label>
+                    <select id="ward_1" class="form-control" style="width: 100%;">
+                        <option value="">Chọn phường/xã</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="offersModal" class="modal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Voucher đã sử dụng của đơn hàng</h2>
+            <div id="offersContent">
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript" src="~/ajax/admin_staff/order/manager_order_update_status_verII.js"></script>

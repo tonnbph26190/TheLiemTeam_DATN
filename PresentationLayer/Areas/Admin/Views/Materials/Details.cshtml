@@ -1,0 +1,107 @@
+﻿@model BusinessLogicLayer.Viewmodels.Material.MaterialVM
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_layoutAdmin.cshtml";
+}
+<style>
+    .table-borderless th, .table-borderless td {
+        padding: 0.25rem; /* Giảm khoảng cách giữa các ô */
+        vertical-align: middle; /* Căn giữa theo chiều dọc */
+    }
+
+    th {
+        font-weight: bold;
+    }
+
+    .table th {
+        width: 30%; /* Điều chỉnh tỷ lệ cột cho nhãn */
+    }
+</style>
+<h1>Thông tin chất liệu</h1>
+
+<div>
+    <hr />
+    <table class="table border-0" style="width:auto;">
+        <tbody>
+            <tr>
+                <td style="font-weight: bold;">
+@*                     @Html.DisplayNameFor(model => model.Name)
+ *@                    Tên chất liệu
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.Name)
+                </td>
+            </tr>
+            <tr>
+                <td style="font-weight: bold;">
+@*                     @Html.DisplayNameFor(model => model.Description)
+ *@                    Mô tả
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.Description)
+                </td>
+            </tr>
+            <tr>
+                <td style="font-weight: bold;">
+@*                     @Html.DisplayNameFor(model => model.Status)
+ *@                    Trạng thái
+                </td>
+
+                @if (Model.Status == 1)
+                {
+                    <td>Hoạt động</td>
+                }
+                else
+                {
+                    <td>Không hoạt động</td>
+                }
+            </tr>
+
+
+        </tbody>
+    </table>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.ID" class="btn btn-warning editbtn">Sửa</a> |
+    <a asp-action="Index" class="btn btn-link">Trở về</a>
+</div>
+<script>
+    function handleSimpleAction(event) {
+        event.preventDefault(); // Ngăn chặn hành vi mặc định của thẻ a
+
+        const url = this.href;
+
+        fetch(url, {
+            method: 'GET'
+        })
+            .then(response => {
+                if (response.status === 403) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Không có quyền!',
+                        text: 'Bạn không có quyền thực hiện hành động này.'
+                    });
+                    throw new Error('Forbidden');
+                } else if (response.ok) {
+                    window.location.href = url; // Chuyển hướng nếu yêu cầu thành công
+                } else {
+                    return response.text().then(text => {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Lỗi!',
+                            text: text || 'Có lỗi xảy ra khi gửi yêu cầu.'
+                        });
+                        throw new Error(text);
+                    });
+                }
+            })
+            .catch(error => {
+                console.error("Fetch error:", error.message);
+            });
+    }
+    document.querySelectorAll(".editbtn").forEach(function (button) {
+        button.addEventListener("click", handleSimpleAction);
+    });
+
+</script>

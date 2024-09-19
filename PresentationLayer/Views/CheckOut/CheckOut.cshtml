@@ -1,0 +1,396 @@
+﻿@{
+    ViewData["Title"] = "CheckOut";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<style>
+    #openModalBtn {
+        background-color: #4CAF50;
+        border: none;
+        color: white;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: background-color 0.3s, transform 0.3s;
+    }
+
+        #openModalBtn:hover {
+            background-color: #45a049;
+        }
+
+        #openModalBtn:active {
+            transform: scale(0.98);
+        }
+
+        #openModalBtn:focus {
+            outline: none;
+        }
+
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgb(0, 0, 0);
+        background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    .modal-content {
+        background-color: #fefefe;
+        margin: 10% auto;
+        padding: 1px;
+        border: 1px solid #888;
+        width: 100%;
+        max-width: 800px;
+        height: 100%;
+        max-height: 590px;
+        overflow-y: auto;
+    }
+
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+    .modal-body ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .modal-body li {
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+        cursor: pointer;
+    }
+
+        .modal-body li:hover {
+            background-color: #f1f1f1;
+        }
+
+    .modal-body button {
+        margin-top: 20px;
+        padding: 10px 20px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        cursor: pointer;
+    }
+
+        .modal-body button:hover {
+            background-color: #45a049;
+        }
+
+    .select_addrees {
+        margin-bottom: 6px;
+    }
+
+        .select_addrees p {
+            color: #111111;
+            margin-bottom: 12px;
+        }
+
+    .select_addrees {
+        height: 50px;
+        width: 100%;
+        border: 1px solid black;
+        font-size: 14px;
+        color: black;
+        padding-left: 20px;
+        margin-bottom: 20px;
+    }
+
+    /* Style for radio buttons */
+    .checkout__input__radio {
+        position: relative;
+        padding-left: 35px;
+        margin-bottom: 12px;
+        cursor: pointer;
+        font-size: 16px;
+        display: block;
+    }
+
+        .checkout__input__radio input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+            .checkout__input__radio input:checked ~ .checkmark {
+                background-color: red;
+            }
+
+        .checkout__input__radio .checkmark {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 20px;
+            width: 20px;
+            border: 2px solid #2196F3;
+            border-radius: 4px;
+            background-color: #eee;
+        }
+
+        .checkout__input__radio input:checked ~ .checkmark:after {
+            display: block;
+        }
+
+        .checkout__input__radio .checkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+        }
+
+        .checkout__input__radio input:checked ~ .checkmark:after {
+            left: 7px;
+            top: 4px;
+            width: 5px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 3px 3px 0;
+            transform: rotate(45deg);
+        }
+
+    @@media only screen and (min-width: 1200px) {
+        .container {
+            max-width: 1470px;
+        }
+    }
+</style>
+<section class="breadcrumb-option">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb__text">
+                    <h4>Thanh toán</h4>
+                    <div class="breadcrumb__links">
+                        <a>Trang chủ</a>
+                        <a>Sản phẩm</a>
+                        <span>Thanh toán</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="checkout spad">
+    <div class="container">
+        <div class="checkout__form">
+            <form action="#">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6" style="background: #f3f2ee;">
+                        <h6 class="checkout__title">Thông tin nhận hàng</h6>
+                        <button type="button" id="openModalBtn">Chọn Địa Chỉ</button>
+
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div class="checkout__input">
+                                    <p>Họ và tên<span>*</span></p>
+                                    <input id="name" type="text">
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="checkout__input">
+                                    <p>Số điện thoại<span>*</span></p>
+                                    <input id="phone" type="text">
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4">
+                                <div class="checkout__input">
+                                    <p>Gmail<span>*</span></p>
+                                    <input id="gmail" type="text">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <p>Thành phố<span>*</span></p>
+                                <select id="city" class="select_addrees" style="display: none;">
+                                    <option value="" selected="">Chọn tỉnh thành</option>
+                                </select>
+                                <div class="nice-select select_addrees" tabindex="0">
+                                    <span class="current">Thành phố</span>
+                                    <ul class="list">
+                                        <li data-value="" class="option selected focus">Chọn tỉnh thành</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <p>Quận/Huyện<span>*</span></p>
+                                <select id="district" class="select_addrees" style="display: none;">
+                                    <option value="" selected="">Chọn quận huyện</option>
+                                </select>
+                                <div class="nice-select select_addrees" tabindex="0">
+                                    <span class="current">Quận/Huyện</span>
+                                    <ul class="list">
+                                        <li data-value="" class="option selected focus">Chọn quận huyện</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <p>Phường/Xã<span>*</span></p>
+                                <select id="ward" class="select_addrees" style="display: none;">
+                                    <option value="" selected="">Chọn phường xã</option>
+                                </select>
+                                <div class="nice-select select_addrees" tabindex="0">
+                                    <span class="current">Phường/Xã</span>
+                                    <ul class="list">
+                                        <li data-value="" class="option selected focus">Chọn phường xã</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="checkout__input">
+                                <p>Địa chỉ cụ thể<span>*</span></p>
+                                <input id="street" type="text">
+                            </div>
+                        </div>
+                        <div>
+                            <div class="checkout__input">
+                                <span>Địa chỉ sau khi chọn</span></p>
+                                <input id="shippingAddress" type="text" placeholder="Địa chỉ sau cùng ( tự cập nhật )" readonly>
+                            </div>
+                        </div>
+                        <div class="checkout__input">
+                            <p>Ghi chú cho đơn hàng</p>
+                            <input type="text" id="note"
+                                   placeholder="Bạn hãy viết điều bạn muốn cho đơn hàng này chúng tôi sẽ hết sức hỗ trợ.">
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <div class="checkout__order">
+                            <h4 class="order__title">Đơn hàng của bạn</h4>
+                            <div class="checkout__order__products">Sản phẩm</div>
+                            <ul class="checkout__total__products" id="table-shopping-cart">
+                            </ul>
+                            <label class="control-label">Voucher cửa hàng</label><br />
+                            <button type="button" id="btn_open_voucher" class="btn btn-primary">
+                                Mở danh sách voucher
+                            </button>
+                            <div id="selectedVoucher" class="mt-3">
+                                <strong>Voucher đã chọn:</strong> <span id="selectedVoucherCode">Chưa có</span>
+                            </div>
+                            <ul class="checkout__total__all">
+                                <li>Giá tạm tính <span id="provisional_fee">0đ</span></li>
+                                <li>Giảm giá ( nếu có ): <span id="coupound">0đ</span></li>
+                                <li>Phí giao hàng <span id="fee_ship" hidden>0đ</span> <span id="fee_shipDisplay">0đ</span></li>
+                                <li>Tổng giá <span id="total_order">0đ</span></li>
+                            </ul>
+
+                            <div class="checkout__input__radio">
+                                <label for="cod">
+                                    Thanh toán khi nhận hàng
+                                    <br />
+                                    <small>
+                                        (Cảm ơn quý khách đã mua sắm tại BeyoungSportWear
+                                        <br /> Để ship nhanh trong ngày, vui lòng gọi 0.334.539.098 để được hướng dẫn)
+                                    </small>
+                                    <input type="radio" name="payment" id="cod" value="1" checked>
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                            <div class="checkout__input__radio">
+                                <label for="vnpay">
+                                    Thanh toán VNPay
+                                    <br />
+                                    <small style="color:red;">
+                                        Thanh toán qua thẻ ngân hàng chưa hỗ trợ hoàn tiền! Quý khách lưu ý khi thanh toán!
+                                    </small>
+                                    <input type="radio" name="payment" id="vnpay" value="0">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                            <button type="button" onclick="sendOrderData()" id="btn_success_order" class="site-btn">
+                                Hoàn tất thanh toán
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+<div class="modal fade" id="voucherModal" tabindex="-1" role="dialog" aria-labelledby="voucherModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #f8f9fa; padding: 15px;">
+                <h5 class="modal-title" id="voucherModalLabel" style="font-weight: bold; color: #333;">Thông tin voucher</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">X</button>
+            </div>
+            <div class="modal-body" style="padding: 20px; max-height: 500px; overflow-y: auto;">
+                <div id="voucherContainer" class="row">
+                    <div class="col-md-6 mb-3 voucher-item" id="voucher_item">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" style="background-color: #f8f9fa; padding: 15px;">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="addressModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Địa chỉ của bạn</h2>
+        <div class="modal-body">
+            <ul id="addressList">
+            </ul>
+            <button id="selectAddressBtn">Chọn Địa Chỉ Đã Chọn</button>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="notificationModal" tabindex="-1" role="dialog" aria-labelledby="notificationModalLabel" aria-hidden="true" style="max-width: 100%;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="border-radius: 15px; max-height: 670px;box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
+            <div class="modal-header">
+                <h5 class="modal-title" id="notificationModalLabel">Thông báo quan trọng</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" style="text-align: center;">
+                <p id="modalMessage">Số lượng của một số sản phẩm trong đơn hàng của bạn lớn hơn 100. Vui lòng liên hệ với cửa hàng để biết giá sỉ.</p>
+                <div class="contact-info" style="margin-top: 20px;">
+                    <p>Để biết thêm thông tin, bạn có thể liên hệ với chúng tôi qua:</p>
+                    <ul style="list-style: none; padding: 0;">
+                        <li>Số điện thoại: <a href="tel: 0334539098" style="color: #007bff;">0334539098</a></li>
+                        <li>Email: <a href="mailto:nhamtuandat317@gmail.com" style="color: #007bff;">nhamtuandat317@gmail.com</a></li>
+                        <li>Quét mã QR để liên hệ qua Zalo:</li>
+                        <li>
+                            <img src="https://res.cloudinary.com/dqcxurnpa/image/upload/v1725017988/ao1tj46yj6el2ddtqxnj.jpg" alt="QR Code to Zalo" style="width: 200px; height: 200px; object-fit: cover; margin-top: 10px;">
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="modal-footer" style="justify-content: center;">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-primary" id="confirmButton">Tiếp tục mua hàng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="~/ajax/client/checkout/checkout_ver_1.js"></script>
