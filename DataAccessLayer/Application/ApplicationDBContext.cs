@@ -18,8 +18,8 @@ namespace DataAccessLayer.Application
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(
-                    "Data Source=.;Initial Catalog=BeyoungSportWear;Integrated Security=True;TrustServerCertificate=True"
+                optionsBuilder.UseNpgsql(
+                    "Server=150.95.115.210;port=5432;Database=store2;User Id=postgres;Password=tX8K$c*!pLKRMs;CommandTimeout=60; Pooling=true;MinPoolSize=1;MaxPoolSize=200;Connection Idle Lifetime=300;Persist Security Info=true"
                 );
             }
         }
@@ -52,31 +52,27 @@ namespace DataAccessLayer.Application
             modelBuilder.ApplyConfiguration(new VoucherConfiguration());
             modelBuilder.ApplyConfiguration(new VoucherUserConfiguration());
 
-
             base.OnModelCreating(modelBuilder);
         }
-
-
-
 
         private void CreateColor(ModelBuilder builder)
         {
             builder.Entity<Colors>().HasData(
-                    new Colors() { ID = Guid.NewGuid(), Name = "White", Description = "", CreateBy = "", CreateDate = DateTime.Now, Status = 1 },
-                    new Colors() { ID = Guid.NewGuid(), Name = "Black", Description = "", CreateBy = "", CreateDate = DateTime.Now, Status = 1 },
-                    new Colors() { ID = Guid.NewGuid(), Name = "Red", Description = "", CreateBy = "", CreateDate = DateTime.Now, Status = 1 },
-                    new Colors() { ID = Guid.NewGuid(), Name = "Blue", Description = "", CreateBy = "", CreateDate = DateTime.Now, Status = 1 },
-                    new Colors() { ID = Guid.NewGuid(), Name = "Green", Description = "", CreateBy = "", CreateDate = DateTime.Now, Status = 1 }
+                    new Colors() { ID = Guid.NewGuid(), Name = "White", Description = "", CreateBy = "", CreateDate = DateTime.UtcNow, Status = 1 },
+                    new Colors() { ID = Guid.NewGuid(), Name = "Black", Description = "", CreateBy = "", CreateDate = DateTime.UtcNow, Status = 1 },
+                    new Colors() { ID = Guid.NewGuid(), Name = "Red", Description = "", CreateBy = "", CreateDate = DateTime.UtcNow, Status = 1 },
+                    new Colors() { ID = Guid.NewGuid(), Name = "Blue", Description = "", CreateBy = "", CreateDate = DateTime.UtcNow, Status = 1 },
+                    new Colors() { ID = Guid.NewGuid(), Name = "Green", Description = "", CreateBy = "", CreateDate = DateTime.UtcNow, Status = 1 }
                 );
         }
         private void CreateSizes(ModelBuilder builder)
         {
             builder.Entity<Sizes>().HasData(
-                    new Sizes() { ID = Guid.NewGuid(), Name = "XS", Description = "", CreateBy = "", CreateDate = DateTime.Now, Status = 1 },
-                    new Sizes() { ID = Guid.NewGuid(), Name = "S", Description = "", CreateBy = "", CreateDate = DateTime.Now, Status = 1 },
-                    new Sizes() { ID = Guid.NewGuid(), Name = "M", Description = "", CreateBy = "", CreateDate = DateTime.Now, Status = 1 },
-                    new Sizes() { ID = Guid.NewGuid(), Name = "L", Description = "", CreateBy = "", CreateDate = DateTime.Now, Status = 1 },
-                    new Sizes() { ID = Guid.NewGuid(), Name = "XL", Description = "", CreateBy = "", CreateDate = DateTime.Now, Status = 1 }
+                    new Sizes() { ID = Guid.NewGuid(), Name = "XS", Description = "", CreateBy = "", CreateDate = DateTime.UtcNow, Status = 1 },
+                    new Sizes() { ID = Guid.NewGuid(), Name = "S", Description = "", CreateBy = "", CreateDate = DateTime.UtcNow, Status = 1 },
+                    new Sizes() { ID = Guid.NewGuid(), Name = "M", Description = "", CreateBy = "", CreateDate = DateTime.UtcNow, Status = 1 },
+                    new Sizes() { ID = Guid.NewGuid(), Name = "L", Description = "", CreateBy = "", CreateDate = DateTime.UtcNow, Status = 1 },
+                    new Sizes() { ID = Guid.NewGuid(), Name = "XL", Description = "", CreateBy = "", CreateDate = DateTime.UtcNow, Status = 1 }
                 );
         }
         private void CreateRoles(ModelBuilder builder)
@@ -101,8 +97,8 @@ namespace DataAccessLayer.Application
                 EmailConfirmed = true,
                 FirstAndLastName = "Admin",
                 Gender = 1,
-                DateOfBirth = new DateTime(1990, 1, 1),
-                JoinDate = DateTime.Now,
+                DateOfBirth = new DateTime(1990, 1, 1).ToUniversalTime(),
+                JoinDate = DateTime.UtcNow,
                 Status = 1
             };
 

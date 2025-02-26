@@ -12,8 +12,8 @@ namespace DataAccessLayer.Entity
     {
         public string Code { get; set; } = null!;
         public string Name { get; set; } = null!;
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
+        public DateTime StartDate { get; set; } = DateTime.UtcNow;
+        public DateTime EndDate { get; set; } = DateTime.UtcNow;
         public int Quantity { get; set; }
         public Types Type { get; set; }
         public decimal MinimumAmount { get; set; }

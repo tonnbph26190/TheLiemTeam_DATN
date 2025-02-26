@@ -21,15 +21,15 @@ public partial class OrderDetail
 
     public string CreateBy { get; set; } = null!;
 
-    public DateTime CreateDate { get; set; }
+    public DateTime CreateDate { get; set; } = DateTime.UtcNow;
 
     public string? ModifiedBy { get; set; }
 
-    public DateTime? ModifiedDate { get; set; }
+    public DateTime? ModifiedDate { get; set; } = DateTime.UtcNow;
 
     public string? DeleteBy { get; set; }
 
-    public DateTime? DeleteDate { get; set; }
+    public DateTime? DeleteDate { get; set; } = DateTime.UtcNow;
 
     public int Status { get; set; }
 

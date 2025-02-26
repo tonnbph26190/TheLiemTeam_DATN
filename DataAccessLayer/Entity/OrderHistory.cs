@@ -12,7 +12,7 @@ namespace DataAccessLayer.Entity
         public string IDUser { get; set; }
         public Guid IDOrder { get; set; }
         public string EditingHistory { get; set; }
-        public DateTime ChangeDate { get; set; }
+        public DateTime ChangeDate { get; set; } = DateTime.UtcNow;
         public string ChangeType { get; set; }
         public string ChangeDetails { get; set; }
         public string? BillOfLadingCode { get; set; }
