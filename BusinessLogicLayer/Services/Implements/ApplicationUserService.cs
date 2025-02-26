@@ -876,13 +876,59 @@ namespace BusinessLogicLayer.Services.Implements
 
             return userDataList;
         }
+
+        private async Task<List<UserDataVM>> GetUserDataByPhoneNumber(string phoneNumber) {  
+            var userDataList = new List<UserDataVM>();
+            var user = await _userManager.Users.FirstOrDefaultAsync(x => x.PhoneNumber == phoneNumber);
+            if (user == null)
+            {
+                return new List<UserDataVM>();
+            }
+
+            var roles = await _userManager.GetRolesAsync(user);
+            var roleName = roles.FirstOrDefault();
+
+            var addresses = _dbContext.Address
+            .Where(a => a.IDUser == user.Id)
+            .Select(a => new AddressVM
+            {
+                ID = a.ID,
+                IDUser = a.IDUser,
+                City = a.City,
+                PhoneNumber = a.PhoneNumber,
+                Gmail = a.Gmail,
+                FirstAndLastName = a.FirstAndLastName,
+                DistrictCounty = a.DistrictCounty,
+                Commune = a.Commune,
+                SpecificAddress = a.SpecificAddress,
+                IsDefault = a.IsDefault,
+                Status = a.Status
+            })
+            .ToList();
+
+            userDataList.Add(new UserDataVM
+            {
+                ID = user.Id,
+                Username = user.UserName,
+                Email = user.Email,
+                Images = user.Images,
+                FirstAndLastName = user.FirstAndLastName,
+                DateOfBirth = user.DateOfBirth.Date,
+                PhoneNumber = user.PhoneNumber,
+                RoleName = roleName,
+                Status = user.Status,
+                AddressVMs = addresses
+            });
+
+            return userDataList;
+        }
         public async Task<List<UserDataVM>> GetUsersByEmailAsync(string email)
         {
             return await GetUsersByCriteriaAsync(u => u.Email.Contains(email));
         }
         public async Task<List<UserDataVM>> GetUsersByPhoneNumberAsync(string phoneNumber)
         {
-            return await GetUsersByCriteriaAsync(u => u.PhoneNumber.Contains(phoneNumber));
+            return await GetUserDataByPhoneNumber(phoneNumber.Trim());
         }
         public async Task<List<UserDataVM>> GetUsersByStatusAsync(int status)
         {

@@ -16,7 +16,6 @@ using System.Text.RegularExpressions;
 
 namespace PresentationLayer.Areas.Admin.Controllers
 {
-    [Authorize(Roles = "Admin")]
     [Area("Admin")]
     public class ManagerStaffController : Controller
     {
