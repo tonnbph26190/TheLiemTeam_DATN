@@ -34,7 +34,7 @@ namespace BusinessLogicLayer.Services.Implements
                     Description = request.Description,
                     Status = 1,
                     CreateBy = request.CreateBy,
-                    CreateDate = DateTime.Now,
+                    CreateDate = DateTime.UtcNow,
 
                 };
                 await _dbcontext.Category.AddRangeAsync(Obj);
@@ -105,7 +105,7 @@ namespace BusinessLogicLayer.Services.Implements
                     if (obj != null && obj.Status == 1)
                     {
                         obj.Status = 0;
-                        obj.DeleteDate = DateTime.Now;
+                        obj.DeleteDate = DateTime.UtcNow;
 
                         _dbcontext.Category.Attach(obj);
                         await _dbcontext.SaveChangesAsync();
@@ -117,7 +117,7 @@ namespace BusinessLogicLayer.Services.Implements
                     else if(obj!=null && obj.Status == 0)
                     {
                         obj.Status = 1;
-                        obj.DeleteDate = DateTime.Now;
+                        obj.DeleteDate = DateTime.UtcNow;
 
                         _dbcontext.Category.Attach(obj);
                         await _dbcontext.SaveChangesAsync();
@@ -181,7 +181,7 @@ namespace BusinessLogicLayer.Services.Implements
             Obj.Description = request.Description;
             Obj.Status = request.Status;
             Obj.ModifiedBy = request.ModifiedBy;
-            Obj.ModifiedDate = DateTime.Now;
+            Obj.ModifiedDate = DateTime.UtcNow;
 
             _dbcontext.Category.Update(Obj);
             await _dbcontext.SaveChangesAsync();

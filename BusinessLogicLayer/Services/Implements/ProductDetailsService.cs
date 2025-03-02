@@ -45,7 +45,7 @@ namespace BusinessLogicLayer.Services.Implements
                     Name = CategoryName,
                     Status = 1,
                     CreateBy = CreateBy,
-                    CreateDate = DateTime.Now
+                    CreateDate = DateTime.UtcNow
                 };
                 await _dbcontext.Category.AddAsync(category);
                 await _dbcontext.SaveChangesAsync();
@@ -71,7 +71,7 @@ namespace BusinessLogicLayer.Services.Implements
                     Website = "",
                     Status = 1,
                     CreateBy = CreateBy,
-                    CreateDate = DateTime.Now
+                    CreateDate = DateTime.UtcNow
                 };
                 await _dbcontext.Brand.AddAsync(brand);
                 await _dbcontext.SaveChangesAsync();
@@ -96,7 +96,7 @@ namespace BusinessLogicLayer.Services.Implements
                     Gmail = "",
                     Website = "",
                     Status = 1,
-                    CreateDate = DateTime.Now,
+                    CreateDate = DateTime.UtcNow,
                     CreateBy = CreateBy,
                 };
                 await _dbcontext.Manufacturer.AddAsync(manufacturers);
@@ -117,7 +117,7 @@ namespace BusinessLogicLayer.Services.Implements
                     ID = Guid.NewGuid(),
                     Name = materialName,
                     Status = 1,
-                    CreateDate = DateTime.Now,
+                    CreateDate = DateTime.UtcNow,
                     CreateBy = CreateBy,
                 };
                 await _dbcontext.Material.AddAsync(material);
@@ -138,7 +138,7 @@ namespace BusinessLogicLayer.Services.Implements
                     ID = Guid.NewGuid(),
                     Name = productTypeName,
                     Status = 1,
-                    CreateDate = DateTime.Now,
+                    CreateDate = DateTime.UtcNow,
                     CreateBy = CreateBy,
                 };
                 await _dbcontext.Product.AddAsync(productType);
@@ -158,7 +158,7 @@ namespace BusinessLogicLayer.Services.Implements
                 {
                     ID = Guid.NewGuid(),
                     Name = sizeName,
-                    CreateDate = DateTime.Now,
+                    CreateDate = DateTime.UtcNow,
                     CreateBy = CreateBy,
                     Status = 1
                 };
@@ -179,7 +179,7 @@ namespace BusinessLogicLayer.Services.Implements
                 {
                     ID = Guid.NewGuid(),
                     Name = colorName,
-                    CreateDate = DateTime.Now,
+                    CreateDate = DateTime.UtcNow,
                     CreateBy = CreateBy,
                     Status = 1
                 };
@@ -251,7 +251,7 @@ namespace BusinessLogicLayer.Services.Implements
                         Description = request.Description,
                         IsActive = request.IsActive,
                         CreateBy = request.CreateBy,
-                        CreateDate = DateTime.Now,
+                        CreateDate = DateTime.UtcNow,
                         Status = 1,
                     };
                     await _dbcontext.ProductDetails.AddAsync(productDetails);
@@ -294,7 +294,7 @@ namespace BusinessLogicLayer.Services.Implements
                             RetailPrice = option.RetailPrice,
                             ImageURL = option.ImageURL,
                             CreateBy = request.CreateBy,
-                            CreateDate = DateTime.Now,
+                            CreateDate = DateTime.UtcNow,
                             IsActive = request.IsActive,
                             Status = 1
                         };
@@ -469,7 +469,7 @@ namespace BusinessLogicLayer.Services.Implements
                     if (obj != null)
                     {
                         obj.Status = 0;
-                        obj.DeleteDate = DateTime.Now;
+                        obj.DeleteDate = DateTime.UtcNow;
                         obj.DeleteBy = IDUserDelete;
 
                         _dbcontext.ProductDetails.Attach(obj);
@@ -532,7 +532,7 @@ namespace BusinessLogicLayer.Services.Implements
                     productDetail.IDManufacturers = manufacturerId;
                     productDetail.Status = 1;
                     productDetail.ModifiedBy = request.ModifiedBy;
-                    productDetail.ModifiedDate = DateTime.Now;
+                    productDetail.ModifiedDate = DateTime.UtcNow;
 
                     _dbcontext.ProductDetails.Update(productDetail);
 
@@ -580,7 +580,7 @@ namespace BusinessLogicLayer.Services.Implements
                                 IsActive = optionVM.IsActive,
                                 ImageURL = optionVM.ImageURL,
                                 CreateBy = request.ModifiedBy,
-                                CreateDate = DateTime.Now,
+                                CreateDate = DateTime.UtcNow,
                                 Status = 1
                             };
 

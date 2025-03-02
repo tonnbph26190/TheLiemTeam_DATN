@@ -46,7 +46,7 @@ namespace BusinessLogicLayer.Services.Implements
 
                     existingCartOption.Quantity += request.Quantity;
                     existingCartOption.TotalPrice = existingCartOption.Quantity * existingCartOption.UnitPrice;
-                    existingCartOption.ModifiedDate = DateTime.Now;
+                    existingCartOption.ModifiedDate = DateTime.UtcNow;
 
                     _dbcontext.CartOptions.Update(existingCartOption);
                 }
@@ -62,7 +62,7 @@ namespace BusinessLogicLayer.Services.Implements
                         Quantity = request.Quantity,
                         UnitPrice = options.RetailPrice,
                         TotalPrice = totalPrice,
-                        CreateDate = DateTime.Now,
+                        CreateDate = DateTime.UtcNow,
                         Status = 1
                     };
 

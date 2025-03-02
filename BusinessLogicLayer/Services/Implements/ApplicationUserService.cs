@@ -70,7 +70,7 @@ namespace BusinessLogicLayer.Services.Implements
             var token = new JwtSecurityToken(
                 issuer: _configuration["JWT:Issuer"],
                 audience: _configuration["JWT:Audience"],
-                expires: DateTime.Now.AddMinutes(double.Parse(_configuration["JWT:DurationInMinutes"])),
+                expires: DateTime.UtcNow.AddMinutes(double.Parse(_configuration["JWT:DurationInMinutes"])),
                 claims: authClaims,
                 signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha512Signature)
             );
@@ -330,7 +330,7 @@ namespace BusinessLogicLayer.Services.Implements
                     Gender = registerOnly.Gender,
                     EmailConfirmed = false,
                     Status = 1,
-                    JoinDate = DateTime.Now
+                    JoinDate = DateTime.UtcNow
                 };
 
                 var result = await _userManager.CreateAsync(newUser, password);
@@ -600,7 +600,7 @@ namespace BusinessLogicLayer.Services.Implements
                         Message = "Mật khẩu nhập lại không trùng với mật khẩu"
                     };
                 }
-                int userAge = DateTime.Now.Year - registerUser.DateOfBirth.Year;
+                int userAge = DateTime.UtcNow.Year - registerUser.DateOfBirth.Year;
                 if (userAge < 18 || userAge > 65 && role == "Staff")
                 {
                     return new Response
@@ -614,7 +614,7 @@ namespace BusinessLogicLayer.Services.Implements
 
                 var newUser = new ApplicationUser
                 {
-                    JoinDate = DateTime.Now,
+                    JoinDate = DateTime.UtcNow,
                     UserName = registerUser.Username,
                     Email = registerUser.Email,
                     FirstAndLastName = registerUser.FirstAndLastName,
@@ -686,7 +686,7 @@ namespace BusinessLogicLayer.Services.Implements
                 {
                     ID = Guid.NewGuid(),
                     CreateBy = newUser.Id,
-                    CreateDate = DateTime.Now,
+                    CreateDate = DateTime.UtcNow,
                     IDUser = newUser.Id,
                     FirstAndLastName = registerUser.FirstAndLastName,
                     PhoneNumber = registerUser.PhoneNumber,

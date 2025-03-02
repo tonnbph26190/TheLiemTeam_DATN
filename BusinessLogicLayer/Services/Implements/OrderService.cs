@@ -38,7 +38,7 @@ namespace BusinessLogicLayer.Services.Implements
                 var order = _mapper.Map<Order>(request);
                 order.ID = Guid.NewGuid();
                 order.CreateBy = request.CreateBy;
-                order.CreateDate = DateTime.Now;
+                order.CreateDate = DateTime.UtcNow;
                 order.HexCode = request.HexCode;
                 order.IDUser = request.IDUser ?? defaultUserID;
                 order.CustomerName = request.CustomerName;
@@ -93,7 +93,7 @@ namespace BusinessLogicLayer.Services.Implements
                         TotalAmount = (option.RetailPrice * directItem.Quantity) - ((option.Discount ?? 0) * directItem.Quantity),
                         Status = 1,
                         CreateBy = option.CreateBy,
-                        CreateDate = DateTime.Now
+                        CreateDate = DateTime.UtcNow
                     };
                     orderDetailsList.Add(ordervariant);
                     totalAmount += (ordervariant.UnitPrice * ordervariant.Quantity) - ((option.Discount ?? 0) * ordervariant.Quantity);
@@ -229,16 +229,16 @@ namespace BusinessLogicLayer.Services.Implements
                     IDOrder = order.ID,
                     IDUser = request.IDUser ?? defaultUserID,
                     ChangeDetails = "Đơn hàng được tạo vào ngày "
-                                    + DateTime.Now.ToString("dd-MM-yyyy 'lúc' HH:mm") + " với tổng giá trị: "
+                                    + DateTime.UtcNow.ToString("dd-MM-yyyy 'lúc' HH:mm") + " với tổng giá trị: "
                                     + @Currency.FormatCurrency(order.TotalAmount.ToString()) + "đ" + "("
                                     + @Currency.NumberToText((double)order.TotalAmount, true) + ")",
-                    ChangeDate = DateTime.Now,
+                    ChangeDate = DateTime.UtcNow,
                     ChangeType = changeType,
                     EditingHistory = "Tạo đơn hàng mới",
                     BillOfLadingCode = request.Notes,
                     Status = 1,
                     CreateBy = request.CreateBy,
-                    CreateDate = DateTime.Now,
+                    CreateDate = DateTime.UtcNow,
                 };
                 await _dbcontext.OrderHistory.AddAsync(orderHistory);
                 await _dbcontext.SaveChangesAsync();
@@ -512,7 +512,7 @@ namespace BusinessLogicLayer.Services.Implements
                     if (obj != null)
                     {
                         obj.Status = 0;
-                        obj.DeleteDate = DateTime.Now;
+                        obj.DeleteDate = DateTime.UtcNow;
                         obj.DeleteBy = IDUserdelete;
 
                         _dbcontext.Order.Attach(obj);
@@ -682,7 +682,7 @@ namespace BusinessLogicLayer.Services.Implements
                 if (IDUserUpdate != null)
                 {
                     string userLink = $"<a data-user-id='{IDUserUpdate}'>Người sửa: {username}</a>";
-                    changeDetails.AppendLine($"{userLink} vào ngày {DateTime.Now:dd/MM/yyyy HH:mm}");
+                    changeDetails.AppendLine($"{userLink} vào ngày {DateTime.UtcNow:dd/MM/yyyy HH:mm}");
                     editingHistory.AppendLine("");
                 }
 
@@ -799,7 +799,7 @@ namespace BusinessLogicLayer.Services.Implements
                     orderDetail.TotalAmount = (orderDetail.UnitPrice * orderDetail.Quantity) - (discount * orderDetail.Quantity);
 
                     orderDetail.ModifiedBy = IDUserUpdate;
-                    orderDetail.ModifiedDate = DateTime.Now;
+                    orderDetail.ModifiedDate = DateTime.UtcNow;
 
                     _dbcontext.OrderDetails.Update(orderDetail);
                 }
@@ -809,7 +809,7 @@ namespace BusinessLogicLayer.Services.Implements
                 order.TotalAmount = order.OrderDetails.Sum(od => od.TotalAmount) + order.Cotsts;
 
                 order.ModifiedBy = IDUserUpdate;
-                order.ModifiedDate = DateTime.Now;
+                order.ModifiedDate = DateTime.UtcNow;
                 _dbcontext.Order.Update(order);
 
                 if (!string.IsNullOrEmpty(editingHistory.ToString()))
@@ -819,12 +819,12 @@ namespace BusinessLogicLayer.Services.Implements
                         ID = Guid.NewGuid(),
                         IDUser = request.IDUser,
                         IDOrder = ID,
-                        ChangeDate = DateTime.Now,
+                        ChangeDate = DateTime.UtcNow,
                         EditingHistory = editingHistory.ToString(),
                         ChangeType = "OrderUpdate",
                         ChangeDetails = changeDetails.ToString(),
                         CreateBy = request.IDUser,
-                        CreateDate = DateTime.Now
+                        CreateDate = DateTime.UtcNow
                     };
 
                     _dbcontext.OrderHistory.Add(orderHistory);
@@ -1025,7 +1025,7 @@ namespace BusinessLogicLayer.Services.Implements
                             {
                                 voucher.Quantity += 1;
 
-                                if (voucher.Status == 1 && voucher.EndDate < DateTime.Now)
+                                if (voucher.Status == 1 && voucher.EndDate < DateTime.UtcNow)
                                 {
                                     return new Result
                                     {
@@ -1069,7 +1069,7 @@ namespace BusinessLogicLayer.Services.Implements
 
             order.OrderStatus = newStatus;
             order.ModifiedBy = IDUserUpdate;
-            order.ModifiedDate = DateTime.Now;
+            order.ModifiedDate = DateTime.UtcNow;
 
             if (newStatus == OrderStatus.Delivered)
             {
@@ -1081,13 +1081,13 @@ namespace BusinessLogicLayer.Services.Implements
                 ID = Guid.NewGuid(),
                 IDUser = IDUserUpdate,
                 IDOrder = IDOrder,
-                ChangeDate = DateTime.Now,
+                ChangeDate = DateTime.UtcNow,
                 EditingHistory = editingHistory,
                 ChangeType = changeType.ToString(),
                 BillOfLadingCode = BillOfLadingCode,
                 ChangeDetails = changeDetails,
                 CreateBy = IDUserUpdate,
-                CreateDate = DateTime.Now,
+                CreateDate = DateTime.UtcNow,
                 Status = 1
             };
 

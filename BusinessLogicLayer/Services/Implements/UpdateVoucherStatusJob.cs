@@ -21,7 +21,7 @@ namespace BusinessLogicLayer.Services.Implements
 
         public async Task Execute(IJobExecutionContext context)
         {
-            var currentDate = DateTime.Now;
+            var currentDate = DateTime.UtcNow;
             var vouchers = await _dbContext.Voucher.ToListAsync();
 
             foreach (var voucher in vouchers)

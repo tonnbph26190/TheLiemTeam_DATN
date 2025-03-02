@@ -49,7 +49,7 @@ namespace BusinessLogicLayer.Services.Implements
                 {
                     ID = Guid.NewGuid(),
                     Path = uploadedImageUrl,
-                    CreateDate = DateTime.Now,
+                    CreateDate = DateTime.UtcNow,
                     CreateBy = request.CreateBy,
                     IDProductDetails = request.IDProductDetails,
                     Status = 1

@@ -47,7 +47,7 @@ namespace BusinessLogicLayer.Services.Implements
                 var newVoucher = new Voucher
                 {
                     Code = request.Code,
-                    CreateDate = DateTime.Now,
+                    CreateDate = DateTime.UtcNow,
                     Name = request.Name,
                     StartDate = request.StartDate,
                     EndDate = request.EndDate,
@@ -216,7 +216,7 @@ namespace BusinessLogicLayer.Services.Implements
                 if (obj != null)
                 {
                     obj.IsActive = StatusVoucher.Finished;
-                    obj.DeleteDate = DateTime.Now;
+                    obj.DeleteDate = DateTime.UtcNow;
                     obj.DeleteBy = IDUserdelete;
                     _dbcontext.Voucher.Attach(obj);
                     await _dbcontext.SaveChangesAsync();
@@ -289,7 +289,7 @@ namespace BusinessLogicLayer.Services.Implements
         }
         public async Task UpdateVoucherStatusesAsync()
         {
-            var today = DateTime.Now;
+            var today = DateTime.UtcNow;
 
             // Lấy tất cả voucher từ cơ sở dữ liệu
             var vouchers = await _dbcontext.Voucher.ToListAsync();
@@ -471,7 +471,7 @@ namespace BusinessLogicLayer.Services.Implements
                         voucher.IsActive = voucher.IsActive == StatusVoucher.IsBeginning ? StatusVoucher.HasntStartedYet : StatusVoucher.IsBeginning;
                     }
 
-                    voucher.DeleteDate = DateTime.Now;
+                    voucher.DeleteDate = DateTime.UtcNow;
                     voucher.DeleteBy = IDUser;
 
                     _dbcontext.Voucher.Attach(voucher);

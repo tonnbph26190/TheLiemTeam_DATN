@@ -29,7 +29,7 @@ namespace BusinessLogicLayer.Services.Implements
                         Description = request.Description,
                         Status = 1,
                         CreateBy = request.CreateBy,
-                        CreateDate = DateTime.Now,
+                        CreateDate = DateTime.UtcNow,
                     };
 
                     await _dbcontext.Product.AddAsync(product);
@@ -75,7 +75,7 @@ namespace BusinessLogicLayer.Services.Implements
                     if (obj != null)
                     {
                         obj.Status = 0;
-                        obj.DeleteDate = DateTime.Now;
+                        obj.DeleteDate = DateTime.UtcNow;
                         obj.DeleteBy = IDUserDelete;
 
                         _dbcontext.Product.Attach(obj);
@@ -110,7 +110,7 @@ namespace BusinessLogicLayer.Services.Implements
             product.Description = request.Description;
             product.Status = request.Status;
             product.ModifiedBy = request.ModifiedBy;
-            product.ModifiedDate = DateTime.Now;
+            product.ModifiedDate = DateTime.UtcNow;
 
             _dbcontext.Product.Update(product);
 

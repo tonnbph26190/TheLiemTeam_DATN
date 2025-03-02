@@ -33,7 +33,7 @@ namespace BusinessLogicLayer.Services.Implements
                     Description = request.Description,
                     Status = 1,
                     CreateBy = request.CreateBy,
-                    CreateDate = DateTime.Now,
+                    CreateDate = DateTime.UtcNow,
 
                 };
                 await _dbcontext.Material.AddRangeAsync(Obj);
@@ -117,7 +117,7 @@ namespace BusinessLogicLayer.Services.Implements
             Obj.Description = request.Description;
             Obj.Status = request.Status;
             Obj.ModifiedBy = request.ModifiedBy;
-            Obj.ModifiedDate = DateTime.Now;
+            Obj.ModifiedDate = DateTime.UtcNow;
 
             _dbcontext.Material.Update(Obj);
             await _dbcontext.SaveChangesAsync();

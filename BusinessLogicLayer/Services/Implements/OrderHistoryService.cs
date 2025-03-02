@@ -77,7 +77,7 @@ namespace BusinessLogicLayer.Services.Implements
                     if (obj != null)
                     {
                         obj.Status = 0;
-                        obj.DeleteDate = DateTime.Now;
+                        obj.DeleteDate = DateTime.UtcNow;
                         obj.DeleteBy = IDUserdelete;
 
                         _dbContext.OrderHistory.Attach(obj);

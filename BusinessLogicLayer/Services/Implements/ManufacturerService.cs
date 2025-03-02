@@ -42,7 +42,7 @@ namespace BusinessLogicLayer.Services.Implements
                     Website = request.Website,
                     Status = 1,
                     CreateBy = request.CreateBy,
-                    CreateDate = DateTime.Now,
+                    CreateDate = DateTime.UtcNow,
 
                 };
                 await _dbcontext.Manufacturer.AddRangeAsync(Obj);
@@ -126,7 +126,7 @@ namespace BusinessLogicLayer.Services.Implements
             Obj.Gmail = request.Gmail;
             Obj.Website = request.Website;
             Obj.ModifiedBy = request.ModifiedBy;
-            Obj.ModifiedDate = DateTime.Now;
+            Obj.ModifiedDate = DateTime.UtcNow;
             _dbcontext.Manufacturer.Update(Obj);
             await _dbcontext.SaveChangesAsync();
             return true;

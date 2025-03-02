@@ -48,7 +48,7 @@ namespace BusinessLogicLayer.Services.Implements
                     IsDefault = request.IsDefault,
                     Status = 1,
                     CreateBy = request.CreateBy,
-                    CreateDate = DateTime.Now,
+                    CreateDate = DateTime.UtcNow,
 
                 };
                 await _dbcontext.Address.AddRangeAsync(Obj);
@@ -155,7 +155,7 @@ namespace BusinessLogicLayer.Services.Implements
                 address.DistrictCounty = request.DistrictCounty;
                 address.SpecificAddress = request.SpecificAddress;
                 address.IsDefault = request.IsDefault;
-                address.ModifiedDate = DateTime.Now;
+                address.ModifiedDate = DateTime.UtcNow;
                 address.ModifiedBy = request.ModifiedBy;
 
                 _dbcontext.Address.Update(address);

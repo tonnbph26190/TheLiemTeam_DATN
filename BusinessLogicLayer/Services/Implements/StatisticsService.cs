@@ -91,7 +91,7 @@ public class StatisticsService : IStatisticsService
 
     public async Task<YearlyStatistic> CalculateYearlyStatistics(string year)
     {
-        DateTime selectedYear = string.IsNullOrEmpty(year) ? DateTime.Now : DateTime.Parse(year);
+        DateTime selectedYear = string.IsNullOrEmpty(year) ? DateTime.UtcNow : DateTime.Parse(year);
         int selectedYearNumber = selectedYear.Year;
 
         var yearlyStatistics = new YearlyStatistic

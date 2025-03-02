@@ -26,7 +26,7 @@ namespace BusinessLogicLayer.Services.Implements
         {
             var obj = new VoucherUser()
             {
-                CreateDate = DateTime.Now,
+                CreateDate = DateTime.UtcNow,
                 CreateBy = request.IDUser,
                 IDUser = request.IDUser,
                 IDVoucher = request.IDVoucher,
