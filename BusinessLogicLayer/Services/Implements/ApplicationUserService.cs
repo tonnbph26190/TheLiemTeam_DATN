@@ -614,13 +614,13 @@ namespace BusinessLogicLayer.Services.Implements
 
                 var newUser = new ApplicationUser
                 {
-                    JoinDate = DateTime.UtcNow,
+                    JoinDate = DateTime.Now.ToUniversalTime(),
                     UserName = registerUser.Username,
                     Email = registerUser.Email,
                     FirstAndLastName = registerUser.FirstAndLastName,
                     PhoneNumber = registerUser.PhoneNumber,
                     Gender = registerUser.Gender,
-                    DateOfBirth = registerUser.DateOfBirth,
+                    DateOfBirth = registerUser.DateOfBirth.ToUniversalTime(),
                     Status = 1,
                     EmailConfirmed = false,
                 };

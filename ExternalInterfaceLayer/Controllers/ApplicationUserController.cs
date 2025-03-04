@@ -99,7 +99,7 @@ namespace ExternalInterfaceLayer.Controllers
         [Route("Register")]
         public async Task<IActionResult> Register([FromForm] RegisterUser registerUser, string role)
         {
-            registerUser.JoinDate = DateTime.Now;
+            registerUser.JoinDate = DateTime.UtcNow;
 
             var result = await _IUserService.RegisterAsync(registerUser, role);
             if (result.IsSuccess)
