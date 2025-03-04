@@ -688,11 +688,11 @@ namespace BusinessLogicLayer.Services.Implements
                         <div class='container'>
                             <div class='header'>
                                 <img src='https://res.cloudinary.com/dqcxurnpa/image/upload/v1723407933/BeyoungSportWear/ImageProduct/Options/l1zudx2ihhv6noe0ecga.webp' alt='Company Logo' />
-                                <h2>Chào mừng bạn đến với trang web bán quần áo thể thao Beyoung Sport Wear!</h2>
+                                <h2>Chào mừng bạn đến với trang web bán quần áo Isady Clenis!</h2>
                             </div>
                             <div class='content'>
                                 <p>Kính gửi quý khách hàng {name},</p>
-                                <p><strong>Shop Beyoung Sport Wear</strong> xin chân thành cảm ơn quý khách đã luôn đồng hành cùng chúng tôi. Nhân dịp này, chúng tôi xin gửi tặng quý khách voucher <strong>{Namecode}</strong> với mã voucher <strong>{keycode}</strong> như một lời tri ân.</p>
+                                <p><strong>Shop Isady Clenis</strong> xin chân thành cảm ơn quý khách đã luôn đồng hành cùng chúng tôi. Nhân dịp này, chúng tôi xin gửi tặng quý khách voucher <strong>{Namecode}</strong> với mã voucher <strong>{keycode}</strong> như một lời tri ân.</p>
                                 <p>Cảm ơn quý khách và rất mong quý khách tiếp tục sử dụng dịch vụ của shop chúng tôi trong tương lai</p>
                                 <p>Trân trọng!</p>
                                 ";

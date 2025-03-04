@@ -138,7 +138,7 @@ namespace BusinessLogicLayer.Services.Implements
         <div class='container'>
             <div class='header'>
                 <img src='https://res.cloudinary.com/dqcxurnpa/image/upload/v1723407933/BeyoungSportWear/ImageProduct/Options/l1zudx2ihhv6noe0ecga.webp' alt='Company Logo' />
-                <h2>Chào mừng bạn đến với Beyoung Sport Wear!</h2>
+                <h2>Chào mừng bạn đến với Isady Clenis!</h2>
             </div>
             <div class='content'>
                 <p>Chào {name},</p>
@@ -147,8 +147,8 @@ namespace BusinessLogicLayer.Services.Implements
                 <p>Chúng tôi rất mong được phục vụ bạn!</p>
             </div>
             <div class='footer'>
-                <p>Beyoung Sport Wear - Địa chỉ liên hệ: [địa chỉ]</p>
-                <p>© {DateTime.Now.Year} Beyoung Sport Wear. All rights reserved.</p>
+                <p>Isady Clenis - Địa chỉ liên hệ: [địa chỉ]</p>
+                <p>© {DateTime.Now.Year} Isady Clenis. All rights reserved.</p>
             </div>
         </div>
     </body>
@@ -418,7 +418,7 @@ namespace BusinessLogicLayer.Services.Implements
                         <div class='container'>
                             <div class='header'>
                                 <img src='https://res.cloudinary.com/dqcxurnpa/image/upload/v1723407933/BeyoungSportWear/ImageProduct/Options/l1zudx2ihhv6noe0ecga.webp' alt='Company Logo' />
-                                <h2>Chào mừng bạn đến với trang web bán quần áo thể thao Beyoung Sport Wear!</h2>
+                                <h2>Chào mừng bạn đến với trang web bán quần áo Isady Clenis!</h2>
                             </div>
                             <div class='content'>
                                 <p>Chào {registerOnly.FirstAndLastName},</p>
