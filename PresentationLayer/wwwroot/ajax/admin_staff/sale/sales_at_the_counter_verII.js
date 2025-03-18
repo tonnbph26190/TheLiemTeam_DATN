@@ -1381,7 +1381,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             var totalPayFormatted = totalPay.replace(/,/g, '').replace(/₫/g, '').replace(/\./g, '');
 
-            const qrUrl = `https://img.vietqr.io/image/TPB-76312003968-compact.png?amount=${totalPayFormatted}&addInfo=${orderData.hexCode}`;
+            const qrUrl = `https://img.vietqr.io/image/MB-0398661586-compact2.png?amount=${totalPayFormatted}&addInfo=${orderData.hexCode}`;
 
             document.getElementById('qrImage').src = qrUrl;
             document.getElementById('totalPayText').innerText = totalPay;

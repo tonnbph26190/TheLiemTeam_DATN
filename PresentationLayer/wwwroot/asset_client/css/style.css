@@ -83,7 +83,7 @@ p {
 }
 
 img {
-    max-width: 100%;
+    max-width: 50%;
 }
 
 input:focus,
@@ -1957,10 +1957,10 @@ ol {
             display: inline-block;
         }
 
-    .footer__about p {
-        color: #b7b7b7;
-        margin-bottom: 30px;
-    }
+            .footer__about  p {
+                color: #b7b7b7;
+                margin-bottom: 30px;
+            }
 
 .footer__widget {
     margin-bottom: 30px;
