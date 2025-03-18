@@ -1,4 +1,4 @@
-# Chào mừng bạn đến với BeyoungSportWear – giải pháp phần mềm bán hàng trực tuyến và ngoại tuyến hoàn hảo dành cho các cửa hàng thời trang thể thao. Với sự kết hợp giữa công nghệ hiện đại và tính năng quản lý thông minh, BeyoungSportWear sẽ giúp bạn nâng cao hiệu quả kinh doanh và mang đến trải nghiệm tuyệt vời cho khách hàng.
+# Chào mừng bạn đến với ISADY CLENIS – giải pháp phần mềm bán hàng trực tuyến và ngoại tuyến hoàn hảo dành cho các cửa hàng thời trang thể thao. Với sự kết hợp giữa công nghệ hiện đại và tính năng quản lý thông minh, ISADY CLENIS sẽ giúp bạn nâng cao hiệu quả kinh doanh và mang đến trải nghiệm tuyệt vời cho khách hàng.
 
 # Tính năng nổi bật:
 1. Quản lý sản phẩm chuyên nghiệp
@@ -17,9 +17,9 @@ Chương trình khuyến mãi và ưu đãi: Tạo và quản lý các chương 
 Báo cáo doanh thu và lợi nhuận: Cung cấp các báo cáo chi tiết về doanh thu, lợi nhuận, tình hình kinh doanh theo ngày, tuần, tháng.
 Phân tích dữ liệu: Phân tích dữ liệu bán hàng để hiểu rõ hơn về xu hướng mua sắm của khách hàng và tối ưu hóa chiến lược kinh doanh.
 
-# Tại sao chọn BeyoungSportWear?
+# Tại sao chọn ISADY CLENIS?
 Dễ sử dụng: Giao diện thân thiện, dễ dàng thao tác ngay cả với người không am hiểu công nghệ.
 Bảo mật cao: Đảm bảo an toàn tuyệt đối cho dữ liệu kinh doanh và thông tin khách hàng.
 Hỗ trợ chuyên nghiệp: Đội ngũ hỗ trợ kỹ thuật nhiệt tình, luôn sẵn sàng giải đáp mọi thắc mắc và hỗ trợ bạn trong suốt quá trình sử dụng.
 
-# Hãy để BeyoungSportWear trở thành người bạn đồng hành tin cậy trong hành trình kinh doanh của bạn. Liên hệ với chúng tôi ngay hôm nay để trải nghiệm những tính năng ưu việt và tận hưởng những tiện ích tuyệt vời mà chúng tôi mang lại!
+# Hãy để ISADY CLENIS trở thành người bạn đồng hành tin cậy trong hành trình kinh doanh của bạn. Liên hệ với chúng tôi ngay hôm nay để trải nghiệm những tính năng ưu việt và tận hưởng những tiện ích tuyệt vời mà chúng tôi mang lại!
