@@ -333,11 +333,51 @@
                 color: #3c97bf;
                 text-decoration: none;
             }
-    </style>>
+
+        .header__logo {
+            position: absolute;
+            top: 0px; 
+            left: 10px; 
+        }
+
+            .header__logo img {
+                max-height: 150px; 
+                width: auto;
+            }
+
+
+        .header-link {
+            position: absolute; 
+            right: 200px; 
+            top: 60px; 
+        }
+
+            .header-link a {        
+                color: #ff5722; 
+                text-decoration: none; 
+                font-weight: bolder;
+                font-size: 20px;
+            }
+
+                .header-link a:hover {
+                    color: #007bff;
+                }
+
+    </style>
 </head>
 
 <body>
-    <h2>Đăng nhập/Đăng ký</h2>
+   @*  <button onclick="window.location.href='/Home/Index';" class="btn btn-primary">Quay lại trang chủ</button> *@
+    <div class="header-container">
+        <div class="header__logo">
+            <a href="/main"><img src="~/asset_client/img/clients/logo.png" alt=""></a>
+        </div>
+        <div class="header-link">
+            <a href="/contact_hotline">Bạn cần giúp đỡ?</a>
+        </div>
+    </div>
+
+    <h2>Đăng nhập/Đăng ký </h2>
     <div class="container" id="container">
         <div class="form-container sign-up-container">
             <form action="#">
