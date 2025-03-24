@@ -18,6 +18,9 @@ public class StatisticsService : IStatisticsService
 
     public async Task<Dictionary<Guid, int>> CalculateBestSellingProducts(DateTime startDate, DateTime endDate)
     {
+        startDate = startDate.ToUniversalTime();
+        endDate = endDate.ToUniversalTime();
+
         return await _dbcontext.Order
             .Where(order => order.CreateDate >= startDate
                          && order.CreateDate <= endDate
@@ -35,6 +38,9 @@ public class StatisticsService : IStatisticsService
 
     public async Task<MonthlyStatistic> CalculateStatistics(DateTime startDate, DateTime endDate)
     {
+        startDate = startDate.ToUniversalTime();
+        endDate = endDate.ToUniversalTime();
+
         var bankPaymentOrders = await GetBankPaymentOrders(new DateTime(startDate.Year, startDate.Month, 1));
         var totalStockQuantity = await _dbcontext.Options.SumAsync(option => option.StockQuantity);
         decimal totalBankPayments = bankPaymentOrders.Sum(order => order.TotalAmount);
@@ -91,7 +97,7 @@ public class StatisticsService : IStatisticsService
 
     public async Task<YearlyStatistic> CalculateYearlyStatistics(string year)
     {
-        DateTime selectedYear = string.IsNullOrEmpty(year) ? DateTime.UtcNow : DateTime.Parse(year);
+        DateTime selectedYear = string.IsNullOrEmpty(year) ? DateTime.UtcNow : DateTime.Parse(year).ToUniversalTime().AddDays(1);
         int selectedYearNumber = selectedYear.Year;
 
         var yearlyStatistics = new YearlyStatistic
@@ -102,8 +108,8 @@ public class StatisticsService : IStatisticsService
 
         for (int month = 1; month <= 12; month++)
         {
-            var startDate = new DateTime(selectedYearNumber, month, 1);
-            var endDate = startDate.AddMonths(1).AddDays(-1);
+            var startDate = new DateTime(selectedYearNumber, month, 1).ToUniversalTime();
+            var endDate = startDate.AddMonths(1).AddDays(-1).ToUniversalTime();
 
             var orders = _dbcontext.Order
                 .Where(o => o.CreateDate >= startDate && o.CreateDate <= endDate && o.OrderStatus == OrderStatus.Delivered);
@@ -120,6 +126,7 @@ public class StatisticsService : IStatisticsService
 
     public async Task<List<Order>> GetBankPaymentOrders(DateTime selectedMonth)
     {
+        selectedMonth = selectedMonth.ToUniversalTime();
         return await _dbcontext.Order
             .Where(order => order.PaymentMethods == PaymentMethod.ChuyenKhoanNganHang
                          && order.CreateDate.Year == selectedMonth.Year

@@ -67,6 +67,8 @@ namespace ExternalInterfaceLayer.Controllers
         {
             try
             {
+                startDate = startDate.ToUniversalTime();
+                endDate = endDate.ToUniversalTime();
                 var bestSellingProducts = await _statisticsService.CalculateStatistics(startDate, endDate);
                 return Ok(bestSellingProducts);
             }

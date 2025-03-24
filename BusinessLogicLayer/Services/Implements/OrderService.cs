@@ -347,7 +347,7 @@ namespace BusinessLogicLayer.Services.Implements
                                 <p>Nếu bạn có bất kỳ câu hỏi nào, vui lòng liên hệ với chúng tôi.</p>
                             </div>
                             <div class='footer'>
-                                <p>Số điện thoại: 0334539098 | Email hỗ trợ: nhamtuandat317@gmail.com</p>
+                                <p>Số điện thoại: 0967052758 | Email hỗ trợ: TheLiem@gmail.com</p>
                                 <p>&copy; 2024. Tất cả các quyền được bảo lưu.</p>
                             </div>
                         </div>
