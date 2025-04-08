@@ -11,7 +11,7 @@ namespace BusinessLogicLayer.Services.Interface
     public interface IOptionsService : IActivatable
     {
         public Task<List<OptionsVM>> GetAllAsync();
-        public Task<List<OptionsVM>> GetAllActiveAsync();
+        public Task<List<OptionsVM>> GetAllActiveAsync(int page = 1, int pageSize = 6);
         public Task<OptionsVM> GetByIDAsync(Guid ID);
         public Task<List<OptionsVM>> GetByNameAsync(string Name);
         public Task<bool> CreateAsync(OptionsCreateSingleVM request);

@@ -82,9 +82,9 @@ namespace ExternalInterfaceLayer.Controllers
 
         [HttpGet]
         [Route("getallactive")]
-        public async Task<IActionResult> GetAllActive()
+        public async Task<IActionResult> GetAllActive(int page = 1, int pageIndex = 10)
         {
-            var obj = await _IOptionsService.GetAllActiveAsync();
+            var obj = await _IOptionsService.GetAllActiveAsync(page, pageIndex);
             return Ok(obj);
         }
 

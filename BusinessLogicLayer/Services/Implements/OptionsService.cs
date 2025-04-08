@@ -133,16 +133,24 @@ namespace BusinessLogicLayer.Services.Implements
                 throw new Exception("Failed to upload image to Cloudinary");
             }
         }
-        public async Task<List<OptionsVM>> GetAllActiveAsync()
+        public async Task<List<OptionsVM>> GetAllActiveAsync(int page = 1, int pageSize = 6)
         {
-            var objList = await _dbcontext.Options
-                           .AsNoTracking()
-                           .Where(b => b.Status != 0 && b.IsActive != false & b.StockQuantity != 0)
-                           .ProjectTo<OptionsVM>(_mapper.ConfigurationProvider)
-                           .ToListAsync();
+            var query = _dbcontext.Options
+                .AsNoTracking()
+                .Where(b => b.Status != 0 && b.IsActive != false && b.StockQuantity != 0);
 
-            return objList ?? new List<OptionsVM>();
+            var totalItems = await query.CountAsync();
+
+            var items = await query
+                .OrderBy(x => x.StockQuantity) // hoặc thuộc tính nào bạn muốn sắp xếp
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ProjectTo<OptionsVM>(_mapper.ConfigurationProvider)
+                .ToListAsync();
+
+            return items ?? new List<OptionsVM>();
         }
+
         public async Task<List<OptionsVM>> GetAllAsync()
         {
             var objList = await _dbcontext.Options
@@ -422,4 +430,14 @@ namespace BusinessLogicLayer.Services.Implements
             return options;
         }
     }
+
+    public class PagedResult<T>
+    {
+        public List<T> Items { get; set; }
+        public int TotalItems { get; set; }
+        public int Page { get; set; }
+        public int PageSize { get; set; }
+        public int TotalPages { get; set; }
+    }
+
 }
