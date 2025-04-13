@@ -137,14 +137,14 @@ namespace BusinessLogicLayer.Services.Implements
         {
             var query = _dbcontext.Options
                 .AsNoTracking()
-                .Where(b => b.Status != 0 && b.IsActive != false && b.StockQuantity != 0);
+                .Where(b => b.Status != 0 && b.IsActive != false && b.StockQuantity != 0)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize);
 
             var totalItems = await query.CountAsync();
 
             var items = await query
                 .OrderBy(x => x.StockQuantity) // hoặc thuộc tính nào bạn muốn sắp xếp
-                .Skip((page - 1) * pageSize)
-                .Take(pageSize)
                 .ProjectTo<OptionsVM>(_mapper.ConfigurationProvider)
                 .ToListAsync();
 

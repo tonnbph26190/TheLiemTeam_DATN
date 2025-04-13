@@ -18,6 +18,8 @@ let totalPay = null;
 let selectedUserId = null;
 let globalShippingFee = 0;
 var costs = 0;
+let page = 1;
+let pageIndex = 5;
 const stockQuantities = {};
 const couponInput = document.getElementById('coupound');
 const tamtinhElement = document.getElementById('temporary_payment_for_goods');
@@ -73,11 +75,12 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 document.addEventListener("DOMContentLoaded", function () {
     showLoader();
-    getOptions();
+    getOptions(page, pageIndex);
 });
-function getOptions() {
+function getOptions(page, pageIndex) {
+
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', 'https://localhost:7241/api/Options/getallactive', true);
+    xhr.open('GET', 'https://localhost:7241/api/Options/getallactive?page=' + page + '&pageIndex=' + pageIndex, true);
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
             hideLoader();
@@ -91,8 +94,24 @@ function getOptions() {
     };
     xhr.send();
 }
+
+
+// Bắt sự kiện nút "Trang trước"
+document.getElementById('prevPageBtn').addEventListener('click', function () {
+    if (page > 1) {
+        page--;
+        getOptions(page, pageIndex);
+    }
+});
+
+// Bắt sự kiện nút "Trang sau"
+document.getElementById('nextPageBtn').addEventListener('click', function () {
+    page++;
+    getOptions(page, pageIndex);
+});
+
 document.getElementById('btn_reload').addEventListener('click', () => {
-    getOptions();
+    getOptions(page, pageIndex);
 });
 function renderOptions(data) {
     const tableBody = document.getElementById('productTableBody');
