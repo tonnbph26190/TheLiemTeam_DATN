@@ -239,6 +239,8 @@ function viewOrderDetails(orderData) {
     }
 }
 document.getElementById('btn_printf_order_pdf').addEventListener('click', function () {
+    /*console.log('Hex code cần in:', hexCode);*/
+
     printf_order_pdf(hexCode);
 });
 function openOffersModal(voucherCode) {
