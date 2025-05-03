@@ -15,7 +15,6 @@ namespace BusinessLogicLayer.Viewmodels.ApplicationUser
         [Required(ErrorMessage = "Email không được để trống")]
         public string Email { get; set; } = null!;
         [RegularExpression(@"^0\d{9}$", ErrorMessage = "Số điện thoại phải bắt đầu bằng số 0 và gồm 10 chữ số.")]
-        [Required(ErrorMessage = "Số điện thoại không được để trống")]
         public string PhoneNumber { get; set; }
         public int Gender { get; set; }
     }

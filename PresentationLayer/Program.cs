@@ -54,6 +54,10 @@ builder.Services.AddAuthentication(options =>
 //    options.AccessDeniedPath = "/Main/Error";
 //});
 
+Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+Encoding encoding = Encoding.GetEncoding("windows-1252");
+
+
 builder.Services.AddAuthorization(options =>
 {
 	options.AddPolicy("Client", policy => policy.RequireRole("Client"));
@@ -68,6 +72,8 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Main/Error");
     app.UseHsts();
 }
+
+
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

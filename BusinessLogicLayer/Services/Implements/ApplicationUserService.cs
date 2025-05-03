@@ -334,18 +334,27 @@ namespace BusinessLogicLayer.Services.Implements
                 };
 
                 var result = await _userManager.CreateAsync(newUser, password);
-                var cart = new Cart
+                if (!result.Succeeded)
                 {
-                    ID = newUser.Id,
-                    IDUser = newUser.Id,
-                    Description = "Giỏ hàng mặc định",
-                    Status = 1,
-                };
-                await _dbContext.Cart.AddAsync(cart);
-                await _dbContext.SaveChangesAsync();
-
+                    return new Response
+                    {
+                        IsSuccess = false,
+                        StatusCode = 400,
+                        Message = result.Errors.ToString()
+                    };
+                }
                 if (result.Succeeded)
                 {
+                    var cart = new Cart
+                    {
+                        ID = Guid.NewGuid().ToString(),
+                        IDUser = newUser.Id,
+                        Description = "Giỏ hàng mặc định",
+                        Status = 1,
+                    };
+                    await _dbContext.Cart.AddAsync(cart);
+                    await _dbContext.SaveChangesAsync();
+
                     if (await _roleManager.RoleExistsAsync(role))
                     {
                         await _userManager.AddToRoleAsync(newUser, role);

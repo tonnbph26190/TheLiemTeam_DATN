@@ -81,6 +81,14 @@
     <h1 class="text-center">Cảm ơn bạn!</h1>
     <p class="text-center">Đơn hàng của bạn đã được xử lý thành công. Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi.</p>
     <div class="text-center">
-        <p class="btn btn-primary">Đơn hàng đã được tạo thành công, vui lòng kiểm tra tại quản lý đơn hàng</p>
+        <p id="goToOrderPage" class="btn btn-primary" style="cursor:pointer;">
+            Đơn hàng đã được tạo thành công, vui lòng kiểm tra tại quản lý đơn hàng
+        </p>
     </div>
 </div>
+
+<script>
+    document.getElementById('goToOrderPage').addEventListener('click', function () {
+        window.top.location.href = '/home/index_order';
+    });
+</script>

@@ -120,7 +120,7 @@ namespace ExternalInterfaceLayer.Controllers
                         Border = iTextSharp.text.Rectangle.NO_BORDER
                     });
 
-                    infoTable.AddCell(new PdfPCell(new Phrase($"Thanh toán cho:\nBeyoung Sport Wear", smallerFont))
+                    infoTable.AddCell(new PdfPCell(new Phrase($"Thanh toán cho:\nTheLiemTeamF", smallerFont))
                     {
                         Border = iTextSharp.text.Rectangle.NO_BORDER
                     });
@@ -247,7 +247,7 @@ namespace ExternalInterfaceLayer.Controllers
             };
 
             // Cấu hình ô chứa thông tin cửa hàng (bên phải)
-            string storeInfo = "Cửa hàng Beyoung Sport Wear\nĐịa chỉ: Nam Từ Liêm - Hà Nội - Việt Nam\nĐiện thoại: 0.334.539.098\nEmail: contact@beyoungsportwear.com";
+            string storeInfo = "Cửa hàng IsClenis\nĐịa chỉ: Nam Từ Liêm - Hà Nội - Việt Nam\nĐiện thoại: 0.334.539.098\nEmail: contact@beyoungsportwear.com";
             PdfPCell footerTextCell = new PdfPCell(new Phrase(storeInfo, footerFont))
             {
                 Border = iTextSharp.text.Rectangle.NO_BORDER,

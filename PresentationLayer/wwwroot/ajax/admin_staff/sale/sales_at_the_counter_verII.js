@@ -2284,9 +2284,18 @@ document.getElementById('saveUserBtn').addEventListener('click', function () {
                             document.getElementById('customerPhoneNumber').value = phone;
                         });
                     } else {
+                        let errorMessage = 'Có lỗi xảy ra. Vui lòng thử lại.';
+                        try {
+                            let errorResponse = JSON.parse(xhr.responseText);
+                            if (errorResponse.message) {
+                                errorMessage = errorResponse.message;
+                            }
+                        } catch (e) {
+                            // Nếu phản hồi không phải JSON, giữ nguyên thông báo mặc định
+                        }
                         Swal.fire({
                             title: 'Lỗi!',
-                            text: 'Có lỗi xảy ra. Vui lòng thử lại.',
+                            text: errorMessage,
                             icon: 'error'
                         });
                     }

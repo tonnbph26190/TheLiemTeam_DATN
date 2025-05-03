@@ -53,7 +53,7 @@ namespace ExternalInterfaceLayer.Controllers
             }
             else
             {
-                return BadRequest("Có lỗi trong quá trình thực hiện.");
+                return BadRequest(new { message = result.Message });
             }
         }
         [HttpPut]

@@ -52,6 +52,9 @@ builder.Services.AddTransient<ApplicationDBContext>();
 builder.Services.Configure<VietQRSettings>(builder.Configuration.GetSection("VietQR"));
 builder.Services.AddHttpClient<IVietQRService, VietQRService>();
 
+Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+Encoding encoding = Encoding.GetEncoding("windows-1252");
+
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDBContext>()
     .AddDefaultTokenProviders();
@@ -138,6 +141,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+
+
 
 app.UseHttpsRedirection();
 app.UseCors("AllowAll");
