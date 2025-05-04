@@ -765,6 +765,25 @@ function getFormData() {
         }
     }
 
+    if ((customerEmail.match(/@/g) || []).length !== 1 || !customerEmail.includes(".")) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Lỗi',
+            text: 'Email không đúng định dạng.'
+        });
+        return null;
+    }
+
+    if (!/^(0|\+84)[0-9]{9}$/.test(customerPhone)) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Lỗi',
+            text: 'Số điện thoại không đúng định dạng (phải bắt đầu bằng 0 hoặc +84 và có 10 chữ số).'
+        });
+        return null;
+    }
+
+
     const totalOrderElement = document.getElementById('total_order');
     const totalOrderText = totalOrderElement.textContent.replace('₫', '').trim();
     const totalOrder = parseFloat(totalOrderText.replace(/\./g, '').replace(/,/g, '.')) || 0;

@@ -1,0 +1,105 @@
+From: BeyoungSportWear <images8192@gmail.com>
+Date: Sat, 03 May 2025 22:06:08 +0700
+Subject: =?utf-8?b?xJDGoW4gaMOgbmcgY+G7p2EgYuG6oW4gxJHDoyDEkcaw4bujYyB04bqhbyB0aMOgbmg=?=
+ =?utf-8?b?IGPDtG5n?=
+Message-Id: <BJYX6JCD2QU4.QYNM46WZKNRI3@desktop-oj4udnh>
+Sender: BeyoungSportWear <images8192@gmail.com>
+To: 1111
+MIME-Version: 1.0
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+
+                    <html>
+                    <head>
+                        <style>
+                            body {
+                                font-family: Arial, sans-serif;
+                                line-height: 1.6;
+                                color: #333;
+                                margin: 0;
+                                padding: 0;
+                            }
+                            .container {
+                                max-width: 600px;
+                                margin: 0 auto;
+                                padding: 20px;
+                                border: 1px solid #ddd;
+                                border-radius: 10px;
+                                background-color: #f9f9f9;
+                            }
+                            .header {
+                                text-align: center;
+                                padding-bottom: 20px;
+                            }
+                            .header img {
+                                max-width: 100px;
+                            }
+                            .content {
+                                padding: 20px;
+                                background-color: #fff;
+                                border-radius: 10px;
+                            }
+                            .order-info {
+                                margin-top: 20px;
+                                padding: 10px;
+                                background-color: #eee;
+                                border-radius: 5px;
+                            }
+                            .product-item {
+                                margin-top: 10px;
+                                padding: 10px;
+                                border-bottom: 1px solid #ddd;
+                                display: flex;
+                                align-items: center;
+                            }
+                            .product-item img {
+                                max-width: 130px;
+                                margin-right: 10px;
+                            }
+                            .product-details {
+                                flex: 1;
+                            }
+                            .footer {
+                                text-align: center;
+                                font-size: 12px;
+                                color: #999;
+                                margin-top: 20px;
+                            }
+                        </style>
+                    </head>
+                    <body>
+                        <div class='container'>
+                            <div class='header'>
+                                <img src='https://res.cloudinary.com/dqcxurnpa/image/upload/v1723407933/BeyoungSportWear/ImageProduct/Options/l1zudx2ihhv6noe0ecga.webp' alt='Company Logo' />
+                                <h2>Cảm ơn bạn đã mua sắm tại chúng tôi!</h2>
+                            </div>
+                            <div class='content'>
+                                <p>Chào Nguyen Ba Ton,</p>
+                                <p>Đơn hàng của bạn đã được tạo thành công với mã đơn hàng:</p>
+                                <div class='order-info'>
+                                    <p><strong>Mã đơn hàng:</strong> 202505031506079373</p>
+                                    <p><strong>Địa chỉ giao hàng:</strong> Phường Phúc Xá, Quận Ba Đình, Thành phố Hà Nội</p>
+                                    <p><strong>Tổng số tiền:</strong> 30.499 ₫</p>
+                                </div>
+                                <h3>Chi tiết sản phẩm:</h3>
+                                <div class='product-item'>
+                                    <img src='https://res.cloudinary.com/drv4cstnl/image/upload/v1744529402/BeyoungSportWear/ImageProduct/Options/bzy66eg4wjfqteqgre16.jpg' alt='Ní ơi là níw' />
+                                    <div class='product-details'>
+                                        <p><strong>Tên sản phẩm:</strong> Ní ơi là níw</p>
+                                        <p><strong>Size:</strong> L</p>
+                                        <p><strong>Màu sắc:</strong> Black</p>
+                                        <p><strong>Giá:</strong> 1.000 ₫</p>
+                                        <p><strong>Số lượng:</strong> 1</p>
+                                    </div>
+                                </div>
+                                <p>Chúng tôi sẽ thông báo cho bạn khi đơn hàng của bạn được vận chuyển.</p>
+                                <p>Nếu bạn có bất kỳ câu hỏi nào, vui lòng liên hệ với chúng tôi.</p>
+                            </div>
+                            <div class='footer'>
+                                <p>Số điện thoại: 0967052758 | Email hỗ trợ: TheLiem@gmail.com</p>
+                                <p>&copy; 2024. Tất cả các quyền được bảo lưu.</p>
+                            </div>
+                        </div>
+                    </body>
+                    </html>
