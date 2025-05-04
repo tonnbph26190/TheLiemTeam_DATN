@@ -1,0 +1,104 @@
+From: TheLiemTeam <images8192@gmail.com>
+Date: Sun, 04 May 2025 17:48:22 +0700
+Subject: =?utf-8?b?xJDGoW4gaMOgbmcgY+G7p2EgYuG6oW4gxJHDoyDEkcaw4bujYyB04bqhbyB0aMOgbmg=?=
+ =?utf-8?b?IGPDtG5n?=
+Message-Id: <WK78EEEM2QU4.T6NZE273OR102@desktop-e0g2ug9>
+Sender: TheLiemTeam <images8192@gmail.com>
+To: nguyenbaton12@gmail.com
+MIME-Version: 1.0
+Content-Type: text/html; charset=utf-8
+
+
+                    <html>
+                    <head>
+                        <style>
+                            body {
+                                font-family: Arial, sans-serif;
+                                line-height: 1.6;
+                                color: #333;
+                                margin: 0;
+                                padding: 0;
+                            }
+                            .container {
+                                max-width: 600px;
+                                margin: 0 auto;
+                                padding: 20px;
+                                border: 1px solid #ddd;
+                                border-radius: 10px;
+                                background-color: #f9f9f9;
+                            }
+                            .header {
+                                text-align: center;
+                                padding-bottom: 20px;
+                            }
+                            .header img {
+                                max-width: 100px;
+                            }
+                            .content {
+                                padding: 20px;
+                                background-color: #fff;
+                                border-radius: 10px;
+                            }
+                            .order-info {
+                                margin-top: 20px;
+                                padding: 10px;
+                                background-color: #eee;
+                                border-radius: 5px;
+                            }
+                            .product-item {
+                                margin-top: 10px;
+                                padding: 10px;
+                                border-bottom: 1px solid #ddd;
+                                display: flex;
+                                align-items: center;
+                            }
+                            .product-item img {
+                                max-width: 130px;
+                                margin-right: 10px;
+                            }
+                            .product-details {
+                                flex: 1;
+                            }
+                            .footer {
+                                text-align: center;
+                                font-size: 12px;
+                                color: #999;
+                                margin-top: 20px;
+                            }
+                        </style>
+                    </head>
+                    <body>
+                        <div class='container'>
+                            <div class='header'>
+                                <img src='https://res.cloudinary.com/dqcxurnpa/image/upload/v1723407933/BeyoungSportWear/ImageProduct/Options/l1zudx2ihhv6noe0ecga.webp' alt='Company Logo' />
+                                <h2>Cảm ơn bạn đã mua sắm tại chúng tôi!</h2>
+                            </div>
+                            <div class='content'>
+                                <p>Chào Quang,</p>
+                                <p>Đơn hàng của bạn đã được tạo thành công với mã đơn hàng:</p>
+                                <div class='order-info'>
+                                    <p><strong>Mã đơn hàng:</strong> 202505041048195317</p>
+                                    <p><strong>Địa chỉ giao hàng:</strong> Phường Phúc Xá, Quận Ba Đình, Thành phố Hà Nội</p>
+                                    <p><strong>Tổng số tiền:</strong> 228.499 ₫</p>
+                                </div>
+                                <h3>Chi tiết sản phẩm:</h3>
+                                <div class='product-item'>
+                                    <img src='https://res.cloudinary.com/drv4cstnl/image/upload/v1746291291/BeyoungSportWear/ImageProduct/Options/qj9rbyjpe1blg2kqdaah.webp' alt='Áo sơ mi trẻ em SARAMIA KIDS phiên bản Hàn Quốc, áo sơ mi trơn bé trai, bé gái hình trước ngực' />
+                                    <div class='product-details'>
+                                        <p><strong>Tên sản phẩm:</strong> Áo sơ mi trẻ em SARAMIA KIDS phiên bản Hàn Quốc, áo sơ mi trơn bé trai, bé gái hình trước ngực</p>
+                                        <p><strong>Size:</strong> S</p>
+                                        <p><strong>Màu sắc:</strong> Blue</p>
+                                        <p><strong>Giá:</strong> 199.000 ₫</p>
+                                        <p><strong>Số lượng:</strong> 1</p>
+                                    </div>
+                                </div>
+                                <p>Chúng tôi sẽ thông báo cho bạn khi đơn hàng của bạn được vận chuyển.</p>
+                                <p>Nếu bạn có bất kỳ câu hỏi nào, vui lòng liên hệ với chúng tôi.</p>
+                            </div>
+                            <div class='footer'>
+                                <p>Số điện thoại: 0967052758 | Email hỗ trợ: TheLiem@gmail.com</p>
+                                <p>&copy; 2024. Tất cả các quyền được bảo lưu.</p>
+                            </div>
+                        </div>
+                    </body>
+                    </html>
