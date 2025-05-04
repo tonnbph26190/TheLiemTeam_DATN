@@ -821,7 +821,10 @@ namespace BusinessLogicLayer.Services.Implements
             user.Email = userUpdateVM.Email ?? user.Email;
             user.PhoneNumber = userUpdateVM.PhoneNumber ?? user.PhoneNumber;
             user.Gender = userUpdateVM.Gender ?? user.Gender;
-            user.DateOfBirth = userUpdateVM.DateOfBirth ?? user.DateOfBirth;
+
+            user.DateOfBirth = userUpdateVM.DateOfBirth.HasValue
+                ? DateTime.SpecifyKind(userUpdateVM.DateOfBirth.Value, DateTimeKind.Utc)
+                : DateTime.SpecifyKind(user.DateOfBirth, DateTimeKind.Utc);
 
             if (userUpdateVM.Images != null)
             {
