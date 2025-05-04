@@ -234,12 +234,15 @@ function formatAndCalculateTotalPay() {
 }
 function calculateTotalPay() {
     const shippingFeeElement = document.getElementById('shippingFee');
+    const shippingMethod = document.getElementById('shippingMethod');
 
     const tamtinh = parseFloat(tamtinhElement.textContent.replace(/[^\d,]/g, '').replace(',', '.')) || 0;
     const coupon = parseFloat(couponInput.value.replace(/[^\d,]/g, '').replace(',', '.')) || 0;
     let costs = 0;
 
-    if (shippingFeeElement) {
+    if (shippingMethod && shippingMethod.value === "0") {
+        costs = 0;
+    } else if (shippingFeeElement) {
         const textContent = shippingFeeElement.textContent.trim();
         const match = textContent.match(/[\d,]+/);
 
