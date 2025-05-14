@@ -590,7 +590,7 @@ namespace BusinessLogicLayer.Services.Implements
                         Message = "Tên tài khoản này đã có người đăng ký"
                     };
                 }
-                existingUser = await _userManager.Users.FirstOrDefaultAsync(u => u.PhoneNumber == registerUser.PhoneNumber);
+                existingUser = await _userManager.Users.FirstOrDefaultAsync(u => u.PhoneNumber == registerUser.PhoneNumber && u.Status == 1);
                 if (existingUser != null)
                 {
                     return new Response
@@ -661,7 +661,7 @@ namespace BusinessLogicLayer.Services.Implements
                         };
 
                         var uploadResult = await _cloudinary.UploadAsync(uploadParams);
-                        newUser.Images = uploadResult.SecureUri.AbsoluteUri;
+                        //newUser.Images = uploadResult.SecureUri.AbsoluteUri;
                     }
                 }
 
@@ -672,7 +672,7 @@ namespace BusinessLogicLayer.Services.Implements
 
                     var errors = result.Errors.Select(e => TranslateErrorToVietnamese(e.Description)).ToList();
 
-                    string errorMessage = "Tạo người dùng thất bại. Chi tiết lỗi: " + string.Join(", ", errors);
+                    string errorMessage = "Tạo người dùng thất bại, có lỗi bất thường sảy ra liện hệ với đội ngũ phát triển để được sử lý nhanh nhất HL:0967052758";
 
                     return new Response
                     {
