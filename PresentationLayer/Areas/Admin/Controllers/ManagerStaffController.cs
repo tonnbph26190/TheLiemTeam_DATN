@@ -35,7 +35,6 @@ namespace PresentationLayer.Areas.Admin.Controllers
                     {
                         searchQuery = searchQuery.Trim();  // Loại bỏ khoảng trắng thừa ở đầu và cuối
 
-                        // Nếu là số điện thoại (chính xác 10 số)
                         if (Regex.IsMatch(searchQuery, @"^0\d{9}$"))
                         {
                             var result = await GetUserByPhoneNumber(searchQuery);
@@ -44,7 +43,6 @@ namespace PresentationLayer.Areas.Admin.Controllers
                                 users = userList;
                             }
                         }
-                        // Nếu là email (chứa ký tự @)
                         else if (searchQuery.Contains('@'))
                         {
                             var result = await GetUserByEmail(searchQuery);
