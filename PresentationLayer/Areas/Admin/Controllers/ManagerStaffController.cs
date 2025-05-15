@@ -335,7 +335,7 @@ namespace PresentationLayer.Areas.Admin.Controllers
                     var handler = new JwtSecurityTokenHandler();
                     var token = handler.ReadJwtToken(jwtToken);
 
-                    string requestURL = $"https://localhost:7241/api/ApplicationUser/SetStatus/{ID}";
+                    string requestURL = $"https://localhost:7241/api/ApplicationUser/ChangeStatus/{ID}";
                     var httpClient = new HttpClient();
                     httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwtToken); // Use jwtToken directly
 
