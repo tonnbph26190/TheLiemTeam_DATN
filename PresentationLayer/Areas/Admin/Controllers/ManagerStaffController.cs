@@ -35,6 +35,7 @@ namespace PresentationLayer.Areas.Admin.Controllers
                     {
                         searchQuery = searchQuery.Trim();  // Loại bỏ khoảng trắng thừa ở đầu và cuối
 
+                        // Nếu là số điện thoại (chính xác 10 số)
                         if (Regex.IsMatch(searchQuery, @"^0\d{9}$"))
                         {
                             var result = await GetUserByPhoneNumber(searchQuery);
@@ -43,6 +44,7 @@ namespace PresentationLayer.Areas.Admin.Controllers
                                 users = userList;
                             }
                         }
+                        // Nếu là email (chứa ký tự @)
                         else if (searchQuery.Contains('@'))
                         {
                             var result = await GetUserByEmail(searchQuery);
@@ -170,9 +172,29 @@ namespace PresentationLayer.Areas.Admin.Controllers
                     }
                     else
                     {
-                        var errorMessage = await response.Content.ReadAsStringAsync();
+                        var errorResponse = await response.Content.ReadAsStringAsync();
                         // Log the error message or inspect it for further details
                         //return BadRequest($"Server returned error: {errorMessage}");
+                        var errorObject = JsonConvert.DeserializeObject<Dictionary<string, object>>(errorResponse);
+
+                        string errorMessage = "Có lỗi xảy ra khi tạo người dùng.";
+                        if (errorObject != null && errorObject.ContainsKey("errors"))
+                        {
+                            var errors = errorObject["errors"] as Dictionary<string, object>;
+                            if (errors != null)
+                            {
+                                var firstErrorField = errors.Keys.FirstOrDefault();
+                                if (firstErrorField != null && errors[firstErrorField] is JsonElement jsonElement)
+                                {
+                                    var errorArray = jsonElement.EnumerateArray();
+                                    if (errorArray.Any())
+                                    {
+                                        errorMessage = errorArray.First().GetString() ?? errorMessage;
+                                    }
+                                }
+                            }
+                        }
+
                         return Json(new { isSuccess = false, errorMessage = errorMessage });
                     }
 
@@ -304,20 +326,67 @@ namespace PresentationLayer.Areas.Admin.Controllers
                     }
                     else
                     {
-                        var errorMessage = await response.Content.ReadAsStringAsync();
-                        // Log the error message or inspect it for further details
-                        //return BadRequest($"Server returned error: {errorMessage}");
+                        var errorResponse = await response.Content.ReadAsStringAsync();
+                        Console.WriteLine($"Edit API Error Response: {errorResponse}"); // Log phản hồi từ API
+
+                        string errorMessage = "Có lỗi xảy ra khi cập nhật người dùng.";
+                        try
+                        {
+                            var errorObject = JsonConvert.DeserializeObject<Dictionary<string, object>>(errorResponse);
+                            if (errorObject != null)
+                            {
+                                Console.WriteLine($"Parsed Error Object: {JsonConvert.SerializeObject(errorObject)}"); // Log đối tượng đã phân tích
+
+                                if (errorObject.ContainsKey("errors"))
+                                {
+                                    var errors = JsonConvert.DeserializeObject<Dictionary<string, string[]>>(errorObject["errors"].ToString());
+                                    if (errors != null && errors.Any())
+                                    {
+                                        // Lấy tất cả lỗi và nối thành một chuỗi
+                                        var allErrorMessages = new List<string>();
+                                        foreach (var errorField in errors)
+                                        {
+                                            if (errorField.Value != null && errorField.Value.Length > 0)
+                                            {
+                                                allErrorMessages.AddRange(errorField.Value);
+                                            }
+                                        }
+                                        errorMessage = string.Join(" ", allErrorMessages);
+                                    }
+                                }
+                                else if (errorObject.ContainsKey("errorMessage"))
+                                {
+                                    errorMessage = errorObject["errorMessage"].ToString();
+                                }
+                                else if (errorObject.ContainsKey("message"))
+                                {
+                                    errorMessage = errorObject["message"].ToString();
+                                }
+                                else if (errorObject.ContainsKey("title"))
+                                {
+                                    errorMessage = errorObject["title"].ToString();
+                                }
+                                else
+                                {
+                                    var possibleMessage = errorObject.Values.FirstOrDefault(val => val != null && val.ToString() != "");
+                                    errorMessage = possibleMessage?.ToString() ?? errorMessage;
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine($"Error parsing API response: {ex.Message}");
+                            errorMessage = errorResponse; // Trả về nguyên văn nếu không phân tích được
+                        }
+
                         return Json(new { isSuccess = false, errorMessage = errorMessage });
-
                     }
-
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-
-                    throw;
+                    Console.WriteLine($"Edit Exception: {ex.Message}");
+                    return Json(new { isSuccess = false, errorMessage = "Đã xảy ra lỗi không xác định." });
                 }
-
             }
             return Unauthorized();
         }

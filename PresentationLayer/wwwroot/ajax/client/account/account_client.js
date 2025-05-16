@@ -1,6 +1,7 @@
 ﻿function getJwtFromCookie() {
     return getCookieValue('jwt');
 }
+
 function getCookieValue(cookieName) {
     const cookies = document.cookie.split(';');
     for (let cookie of cookies) {
@@ -11,26 +12,30 @@ function getCookieValue(cookieName) {
     }
     return null;
 }
+
 function getUserIdFromJwt(jwt) {
     try {
         const tokenPayload = JSON.parse(atob(jwt.split('.')[1]));
         return tokenPayload['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'];
-    }
-    catch (error) {
+    } catch (error) {
         console.error('Error parsing JWT:', error);
         return null;
     }
 }
+
 const jwt = getJwtFromCookie();
 const userId = getUserIdFromJwt(jwt);
+
 function checkAuthentication() {
     if (!jwt || !userId) {
-        window.location.href = '/login'; 
-        return false; 
+        window.location.href = '/login';
+        return false;
     }
-    return true; 
+    return true;
 }
+
 checkAuthentication();
+
 function fetchUserData() {
     const xhr = new XMLHttpRequest();
     xhr.open('GET', `https://localhost:7241/api/ApplicationUser/GetInformationUser/${userId}`, true);
@@ -41,8 +46,8 @@ function fetchUserData() {
         if (xhr.status >= 200 && xhr.status < 300) {
             try {
                 const data = JSON.parse(xhr.responseText);
-                console.log('data:', data)
-                console.log('firstAndLastName:', data.firstAndLastName)
+                console.log('data:', data);
+                console.log('firstAndLastName:', data.firstAndLastName);
                 if (data) {
                     document.getElementById('images').src = data.images || '';
                     document.getElementById('username').textContent = data.username || '';
@@ -59,8 +64,7 @@ function fetchUserData() {
                     });
                 }
                 loadUserAddresses(userId);
-            }
-            catch (error) {
+            } catch (error) {
                 console.error('Error parsing response:', error);
             }
         } else {
@@ -90,6 +94,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     fetchUserData(userId);
 });
+
 function loadUserAddresses(userId) {
     var xhr = new XMLHttpRequest();
     xhr.open('GET', `https://localhost:7241/api/Address/user/${userId}`, true);
@@ -207,8 +212,8 @@ document.getElementById('logoutButton').addEventListener('click', function (even
         }
     });
 });
-function updateUser() {
 
+function updateUser() {
     var formData = new FormData();
 
     // Cập nhật các trường thông tin cá nhân
@@ -219,8 +224,7 @@ function updateUser() {
     // Cập nhật giới tính
     var genderInputs = document.getElementsByName('Gender');
     genderInputs.forEach(input => {
-        if (input.checked == true) {
-            console.log(input.value)
+        if (input.checked) {
             formData.append('gender', input.value);
         }
     });
@@ -233,8 +237,6 @@ function updateUser() {
     if (fileInput.files.length > 0) {
         formData.append('images', fileInput.files[0]);
     }
-
-    console.log(formData.get('gender'))
 
     var xhr = new XMLHttpRequest();
     xhr.open('PUT', `https://localhost:7241/api/ApplicationUser/UpdateUser/${userId}`, true);
@@ -251,16 +253,42 @@ function updateUser() {
                 window.location.href = '/';
             });
         } else {
+            let errorMessage = 'Có lỗi xảy ra trong quá trình cập nhật.';
+            try {
+                const response = JSON.parse(xhr.responseText);
+                console.log('Error Response:', response); // Log để kiểm tra phản hồi
+                if (response) {
+                    // Xử lý các trường hợp lỗi khác nhau
+                    if (response.errorMessage) {
+                        errorMessage = response.errorMessage;
+                    } else if (response.message) {
+                        errorMessage = response.message;
+                    } else if (response.errors) {
+                        if (Array.isArray(response.errors)) {
+                            errorMessage = response.errors.join(', ');
+                        } else if (typeof response.errors === 'string') {
+                            errorMessage = response.errors;
+                        } else if (typeof response.errors === 'object') {
+                            // Nếu errors là một đối tượng, trích xuất thông tin lỗi
+                            errorMessage = Object.values(response.errors).flat().join(', ');
+                        }
+                    } else {
+                        errorMessage = 'Lỗi không xác định từ server.';
+                    }
+                }
+            } catch (e) {
+                console.error('Error parsing response:', e);
+                errorMessage = xhr.responseText || 'Không thể phân tích phản hồi từ server.';
+            }
             Swal.fire({
                 title: 'Lỗi!',
-                text: 'Có lỗi xảy ra trong quá trình cập nhật.',
+                text: errorMessage,
                 icon: 'error',
                 confirmButtonText: 'OK'
             });
-            console.log(xhr.responseText)
-
         }
     };
+
     xhr.onerror = function () {
         Swal.fire({
             title: 'Lỗi!',
@@ -268,11 +296,12 @@ function updateUser() {
             icon: 'error',
             confirmButtonText: 'OK'
         });
-        console.log(xhr.responseText)
+        console.log('Response:', xhr.responseText);
     };
-    console.log(formData)
+
     xhr.send(formData);
 }
+
 document.getElementById('updateButton').addEventListener('click', function (event) {
     event.preventDefault();
 
@@ -287,15 +316,14 @@ document.getElementById('updateButton').addEventListener('click', function (even
         cancelButtonText: 'Hủy'
     }).then((result) => {
         if (result.isConfirmed) {
-            // Gọi hàm updateUser ở đây
             updateUser();
         }
     });
 });
+
 //pop up form địa chỉ
 function openEditModal(addressId) {
-
-    console.log('Opening modal for addressId:', addressId); // Kiểm tra giá trị addressId
+    console.log('Opening modal for addressId:', addressId);
     $('#editAddressModal').modal('show');
 
     if (!addressId) {
@@ -321,42 +349,36 @@ function openEditModal(addressId) {
             cancelButtonText: 'Hủy'
         }).then((result) => {
             if (result.isConfirmed) {
-                submitAddressForm(addressId); //Hàm cập nhật địa chỉ
+                submitAddressForm(addressId);
                 $('#editAddressModal').modal('hide');
             }
         });
-
     };
     var xhr = new XMLHttpRequest();
     xhr.open('GET', `https://localhost:7241/api/Address/GetByIDAsync/${addressId}`, true);
     xhr.onload = function () {
         if (xhr.status >= 200 && xhr.status < 300) {
             var response = JSON.parse(xhr.responseText);
-            console.log('Address details:', response); // Kiểm tra dữ liệu trả về
+            console.log('Address details:', response);
 
             document.getElementById('specificAddress').value = response.specificAddress;
             document.getElementById('city').value = response.city;
 
-            // Kích hoạt sự kiện change để load quận huyện
             var citySelect = document.getElementById('city');
             var event = new Event('change');
             citySelect.dispatchEvent(event);
-            updateNiceSelect('city')
-            // Sau khi quận huyện được load, gán giá trị và kích hoạt sự kiện change để load xã phường
+            updateNiceSelect('city');
             setTimeout(function () {
                 document.getElementById('district').value = response.districtCounty;
                 var districtSelect = document.getElementById('district');
                 districtSelect.dispatchEvent(event);
-                updateNiceSelect('district')
-            }, 500); // Đảm bảo quận huyện đã load xong
+                updateNiceSelect('district');
+            }, 500);
 
-            // Cuối cùng gán giá trị xã phường
             setTimeout(function () {
                 document.getElementById('ward').value = response.commune;
-                updateNiceSelect('ward')
-            }, 1000); // Đảm bảo xã phường đã load xong
-
-
+                updateNiceSelect('ward');
+            }, 1000);
         } else {
             Swal.fire(
                 'Lỗi!',
@@ -366,15 +388,13 @@ function openEditModal(addressId) {
         }
     };
     xhr.send();
-
 }
+
 function openCreateModal() {
-    // Reset các trường nhập liệu trong modal
     document.getElementById('specificAddress').value = '';
     document.getElementById('city').value = '';
     document.getElementById('district').value = '';
     document.getElementById('ward').value = '';
-    // document.getElementById('IsDefault').checked = false;
 
     $('#editAddressModal').modal('show');
 
@@ -392,17 +412,15 @@ function openCreateModal() {
             cancelButtonText: 'Hủy'
         }).then((result) => {
             if (result.isConfirmed) {
-                saveAddress(); // Hàm tạo địa chỉ mới
+                saveAddress();
                 $('#editAddressModal').modal('hide');
             }
         });
     };
 }
+
 function submitAddressForm(addressId) {
-
-    var ischecked = document.getElementById(`toggleSwitch-${addressId}`).checked
-
-    console.log(ischecked)
+    var ischecked = document.getElementById(`toggleSwitch-${addressId}`).checked;
 
     var updatedAddress = {
         firstAndLastName: document.getElementById('name_user_1').value,
@@ -435,8 +453,38 @@ function submitAddressForm(addressId) {
                 loadUserAddresses(userId);
             });
         } else if (xhr.readyState === 4) {
+            let errorMessage = 'Đã xảy ra lỗi khi cập nhật địa chỉ.';
+            try {
+                const response = JSON.parse(xhr.responseText);
+                console.log('Error Response:', response);
+                if (response) {
+                    if (response.errorMessage) {
+                        errorMessage = response.errorMessage;
+                    } else if (response.message) {
+                        errorMessage = response.message;
+                    } else if (response.errors) {
+                        if (Array.isArray(response.errors)) {
+                            errorMessage = response.errors.join(', ');
+                        } else if (typeof response.errors === 'string') {
+                            errorMessage = response.errors;
+                        } else if (typeof response.errors === 'object') {
+                            errorMessage = Object.values(response.errors).flat().join(', ');
+                        }
+                    } else {
+                        errorMessage = 'Lỗi không xác định từ server.';
+                    }
+                }
+            } catch (e) {
+                console.error('Error parsing response:', e);
+                errorMessage = xhr.responseText || 'Không thể phân tích phản hồi từ server.';
+            }
+            Swal.fire({
+                icon: 'error',
+                title: 'Lỗi!',
+                text: errorMessage,
+                confirmButtonText: 'OK'
+            });
             console.error('Error updating address:', xhr.responseText);
-            alert('Đã xảy ra lỗi khi cập nhật địa chỉ. Vui lòng thử lại sau.');
         }
     };
     xhr.send(JSON.stringify(updatedAddress));
@@ -450,8 +498,6 @@ function saveAddress() {
     const districtCounty = document.getElementById('district').value;
     const commune = document.getElementById('ward').value;
     const specificAddress = document.getElementById('specificAddress').value;
-
-    //const isDefault = document.getElementById('IsDefault').checked;
 
     if (firstAndLastName === '' || phoneNumber === '' || gmail === '' || city === '' || districtCounty === '' || commune === '' || specificAddress === '') {
         Swal.fire(
@@ -473,7 +519,6 @@ function saveAddress() {
         isDefault: false,
         specificAddress: specificAddress
     };
-    console.log(addressData)
     var xhr = new XMLHttpRequest();
     xhr.open('POST', 'https://localhost:7241/api/Address/create_address', true);
     xhr.setRequestHeader('Content-Type', 'application/json');
@@ -487,33 +532,77 @@ function saveAddress() {
                     text: 'Địa chỉ đã được thêm thành công.',
                     confirmButtonText: 'OK'
                 }).then(() => {
-                    //document.getElementById('addAddressModal').classList.remove('show');
-                    //document.getElementById('addAddressModal').style.display = 'none';
-                    //document.body.classList.remove('modal-open');
-                    //document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
                     loadUserAddresses(userId);
-                    location.reload(true)
+                    location.reload(true);
+                });
+            } else if (xhr.status === 400) {
+                let errorMessage = 'Số điện thoại đã tồn tại. Vui lòng kiểm tra lại.';
+                try {
+                    const response = JSON.parse(xhr.responseText);
+                    console.log('Error Response:', response);
+                    if (response) {
+                        if (response.errorMessage) {
+                            errorMessage = response.errorMessage;
+                        } else if (response.message) {
+                            errorMessage = response.message;
+                        } else if (response.errors) {
+                            if (Array.isArray(response.errors)) {
+                                errorMessage = response.errors.join(', ');
+                            } else if (typeof response.errors === 'string') {
+                                errorMessage = response.errors;
+                            } else if (typeof response.errors === 'object') {
+                                errorMessage = Object.values(response.errors).flat().join(', ');
+                            }
+                        }
+                    }
+                } catch (e) {
+                    console.error('Error parsing response:', e);
+                }
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Lỗi!',
+                    text: errorMessage,
+                    confirmButtonText: 'OK'
+                });
+            } else {
+                let errorMessage = 'Đã xảy ra lỗi khi thêm địa chỉ.';
+                try {
+                    const response = JSON.parse(xhr.responseText);
+                    console.log('Error Response:', response);
+                    if (response) {
+                        if (response.errorMessage) {
+                            errorMessage = response.errorMessage;
+                        } else if (response.message) {
+                            errorMessage = response.message;
+                        } else if (response.errors) {
+                            if (Array.isArray(response.errors)) {
+                                errorMessage = response.errors.join(', ');
+                            } else if (typeof response.errors === 'string') {
+                                errorMessage = response.errors;
+                            } else if (typeof response.errors === 'object') {
+                                errorMessage = Object.values(response.errors).flat().join(', ');
+                            }
+                        } else {
+                            errorMessage = 'Lỗi không xác định từ server.';
+                        }
+                    }
+                } catch (e) {
+                    console.error('Error parsing response:', e);
+                    errorMessage = xhr.responseText || 'Không thể phân tích phản hồi từ server.';
+                }
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Lỗi!',
+                    text: errorMessage,
+                    confirmButtonText: 'OK'
                 });
             }
-        } else if (xhr.status === 400) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Lỗi!',
-                text: 'Số điện thoại đã tồn tại. Vui lòng kiểm tra lại.',
-                confirmButtonText: 'OK'
-            })
-        } else {
-            Swal.fire({
-                icon: 'error',
-                title: 'Lỗi!',
-                text: 'Đã xảy ra lỗi khi thêm địa chỉ. Vui lòng thử lại.',
-                confirmButtonText: 'OK'
-            });
         }
     };
 
     xhr.send(JSON.stringify(addressData));
 }
+
 function updateNiceSelect(id) {
     var select = document.getElementById(id);
     var niceSelect = select.nextElementSibling;
@@ -590,7 +679,6 @@ document.addEventListener("DOMContentLoaded", function () {
             updateNiceSelect('ward');
             calculateShippingFee();
         });
-
 
         districtsSelect.addEventListener('change', function () {
             wardsSelect.innerHTML = '<option value="" selected>Chọn phường xã</option>';
@@ -696,6 +784,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 });
+
 function deleteAddress(id) {
     Swal.fire({
         title: 'Bạn có chắc chắn muốn xóa địa chỉ này?',
@@ -717,9 +806,34 @@ function deleteAddress(id) {
                         );
                         loadUserAddresses(userId);
                     } else {
+                        let errorMessage = 'Đã có lỗi xảy ra khi xóa địa chỉ!';
+                        try {
+                            const response = JSON.parse(xhr.responseText);
+                            console.log('Error Response:', response);
+                            if (response) {
+                                if (response.errorMessage) {
+                                    errorMessage = response.errorMessage;
+                                } else if (response.message) {
+                                    errorMessage = response.message;
+                                } else if (response.errors) {
+                                    if (Array.isArray(response.errors)) {
+                                        errorMessage = response.errors.join(', ');
+                                    } else if (typeof response.errors === 'string') {
+                                        errorMessage = response.errors;
+                                    } else if (typeof response.errors === 'object') {
+                                        errorMessage = Object.values(response.errors).flat().join(', ');
+                                    }
+                                } else {
+                                    errorMessage = 'Lỗi không xác định từ server.';
+                                }
+                            }
+                        } catch (e) {
+                            console.error('Error parsing response:', e);
+                            errorMessage = xhr.responseText || 'Không thể phân tích phản hồi từ server.';
+                        }
                         Swal.fire(
                             'Lỗi!',
-                            'Đã có lỗi xảy ra khi xóa địa chỉ!' + xhr.responseText,
+                            errorMessage,
                             'error'
                         );
                     }
