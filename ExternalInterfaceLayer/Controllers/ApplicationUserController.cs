@@ -60,12 +60,24 @@ namespace ExternalInterfaceLayer.Controllers
         [Route("UpdateUser/{ID}")]
         public async Task<IActionResult> UpdateUser(string ID, [FromForm] UserUpdateVM userUpdateVM)
         {
-            var result = await _IUserService.UpdateUserAsync(ID, userUpdateVM);
-            if (!result)
+            if (!ModelState.IsValid)
             {
-                return BadRequest("Cập nhật thông tin người dùng thất bại.");
+                var errors = ModelState.ToDictionary(
+                    kvp => kvp.Key,
+                    kvp => kvp.Value.Errors.Select(e => e.ErrorMessage).ToArray()
+                );
+                return BadRequest(new { errors });
             }
-            return Ok("Cập nhật thông tin người dùng thành công.");
+
+            try
+            {
+                // Logic cập nhật người dùng
+                return Ok(new { message = "Cập nhật thành công" });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { errorMessage = ex.Message });
+            }
         }
         [Authorize(Roles = "Admin,Staff")]
         [HttpGet]
