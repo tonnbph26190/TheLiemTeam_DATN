@@ -111,7 +111,6 @@ namespace PresentationLayer.Areas.Admin.Controllers
             return View();
         }
         [Authorize(Roles = "Admin")]
-
         [HttpPost("home/guest/create")]
         public async Task<IActionResult> Create(RegisterUser registerUser, string role)
         {
@@ -128,7 +127,7 @@ namespace PresentationLayer.Areas.Admin.Controllers
                     registerUser.ConfirmPassword = registerUser.Password;
                     string requestURL = $"https://localhost:7241/api/ApplicationUser/Register?role={role}";
                     var httpClient = new HttpClient();
-                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwtToken); // Use jwtToken directly
+                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwtToken);
 
                     // Tạo MultipartFormDataContent để gửi dữ liệu dạng form
                     var formData = new MultipartFormDataContent();
@@ -158,28 +157,94 @@ namespace PresentationLayer.Areas.Admin.Controllers
                     formData.Add(new StringContent(registerUser.DistrictCounty ?? string.Empty), "DistrictCounty");
                     formData.Add(new StringContent(registerUser.Commune ?? string.Empty), "Commune");
 
+                    // [NOTE] Log dữ liệu gửi đi để kiểm tra
+                    foreach (var item in formData)
+                    {
+                        var content = await item.ReadAsStringAsync();
+                        Console.WriteLine($"FormData - {item.Headers.ContentDisposition.Name}: {content}");
+                    }
+
                     var response = await httpClient.PostAsync(requestURL, formData);
                     if (response.IsSuccessStatusCode)
                     {
                         Console.WriteLine("User's Password: " + registerUser.Password);
-                        //return RedirectToAction("Index");
                         return Json(new { isSuccess = true });
                     }
                     else
                     {
-                        var errorMessage = await response.Content.ReadAsStringAsync();
-                        // Log the error message or inspect it for further details
-                        //return BadRequest($"Server returned error: {errorMessage}");
+                        var errorResponse = await response.Content.ReadAsStringAsync();
+                        Console.WriteLine($"Create API Error Response: {errorResponse}"); // [NOTE] Log phản hồi lỗi từ API
+
+                        // [NOTE] Kiểm tra nếu errorResponse rỗng hoặc không hợp lệ
+                        if (string.IsNullOrEmpty(errorResponse))
+                        {
+                            return Json(new { isSuccess = false, errorMessage = "Không nhận được phản hồi lỗi từ API." });
+                        }
+
+                        string errorMessage = "Có lỗi xảy ra khi tạo người dùng.";
+                        try
+                        {
+                            // [NOTE] Phân tích lỗi từ JSON response
+                            var errorObject = JsonConvert.DeserializeObject<Dictionary<string, object>>(errorResponse);
+                            if (errorObject != null)
+                            {
+                                Console.WriteLine($"Parsed Error Object: {JsonConvert.SerializeObject(errorObject)}"); // [NOTE] Log đối tượng đã phân tích
+
+                                if (errorObject.ContainsKey("errors"))
+                                {
+                                    var errors = JsonConvert.DeserializeObject<Dictionary<string, string[]>>(errorObject["errors"].ToString());
+                                    if (errors != null && errors.Any())
+                                    {
+                                        // [NOTE] Lấy tất cả lỗi và nối thành một chuỗi
+                                        var allErrorMessages = new List<string>();
+                                        foreach (var errorField in errors)
+                                        {
+                                            if (errorField.Value != null && errorField.Value.Length > 0)
+                                            {
+                                                allErrorMessages.AddRange(errorField.Value);
+                                            }
+                                        }
+                                        errorMessage = string.Join(" ", allErrorMessages);
+                                    }
+                                }
+                                else if (errorObject.ContainsKey("errorMessage"))
+                                {
+                                    errorMessage = errorObject["errorMessage"].ToString();
+                                }
+                                else if (errorObject.ContainsKey("message"))
+                                {
+                                    errorMessage = errorObject["message"].ToString();
+                                }
+                                else if (errorObject.ContainsKey("title"))
+                                {
+                                    errorMessage = errorObject["title"].ToString();
+                                }
+                                else
+                                {
+                                    var possibleMessage = errorObject.Values.FirstOrDefault(val => val != null && val.ToString() != "");
+                                    errorMessage = possibleMessage?.ToString() ?? errorMessage;
+                                }
+                            }
+                            else
+                            {
+                                // [NOTE] Nếu không phân tích được JSON, trả về nguyên văn
+                                errorMessage = errorResponse;
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine($"Error parsing API response: {ex.Message}"); // [NOTE] Log lỗi phân tích
+                            errorMessage = errorResponse; // Trả về nguyên văn nếu không phân tích được
+                        }
+
                         return Json(new { isSuccess = false, errorMessage = errorMessage });
                     }
-
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-
-                    throw;
+                    Console.WriteLine($"Create Exception: {ex.Message}"); // [NOTE] Log lỗi ngoại lệ tổng quát
+                    return Json(new { isSuccess = false, errorMessage = "Đã xảy ra lỗi không xác định: " + ex.Message });
                 }
-
             }
             return Unauthorized();
         }

@@ -80,7 +80,7 @@
 <div>
     <a asp-action="Index" class="btn btn-link">Trở về</a>
 </div>
-<script src="~/ajax/address.js"></script>
+<script src="/ajax/address.js"></script>
 
 <script>
     document.getElementById("createForm").addEventListener("submit", function (event) {
@@ -116,22 +116,11 @@
                                 window.location.href = '@Url.Action("Index")';
                             });
                         } else {
-                                var messsage = JSON.parse(response.errorMessage);
-                                 var errorMessage = '';
-                                if (messsage.errors != null) {
-                                    const firstKey = Object.keys(messsage.errors)[0];
-                                   errorMessage = messsage.errors[firstKey][0];
-                                }
-                                else {
-                                    errorMessage = messsage.message
-                                }
-                                    
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Lỗi!',
-                                text: 'Đã xảy ra lỗi: ' +  errorMessage || 'Có lỗi xảy ra khi tạo khách hàng.'
+                                text: 'Đã xảy ra lỗi: ' + response.errorMessage || 'Có lỗi xảy ra khi tạo khách hàng.'
                             });
-                            
                         }
                     } else {
                         Swal.fire({
