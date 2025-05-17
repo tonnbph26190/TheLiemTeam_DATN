@@ -1,4 +1,4 @@
-/*  ---------------------------------------------------
+﻿/*  ---------------------------------------------------
     Template Name: Male Fashion
     Description: Male Fashion - ecommerce teplate
     Author: Colorib
@@ -14,6 +14,7 @@
     /*------------------
         Preloader
     --------------------*/
+    $(window).on('load', function () {
     $(window).on('load', function () {
         $(".loader").fadeOut();
         $("#preloder").delay(200).fadeOut("slow");

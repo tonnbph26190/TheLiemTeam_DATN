@@ -56,16 +56,16 @@ namespace ExternalInterfaceLayer.Controllers
             return Ok(classify);
         }
 
-        [HttpGet("cart/user/{IDUser}")]
-        public async Task<IActionResult> GetCartsByUserID(string IDUser)
-        {
-            var carts = await _ICartService.GetByUserIDAsync(IDUser);
-            if (carts == null || !carts.Any())
+            [HttpGet("cart/user/{IDUser}")]
+            public async Task<IActionResult> GetCartsByUserID(string IDUser)
             {
-                return NotFound();
+                var carts = await _ICartService.GetByUserIDAsync(IDUser);
+                if (carts == null || !carts.Any())
+                {
+                    return NotFound();
+                }
+                return Ok(carts);
             }
-            return Ok(carts);
-        }
 
         [HttpPut("{ID}")]
         public async Task<IActionResult> Update(Guid ID, [FromBody] CartUpdateVM request)

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BusinessLogicLayer.Services.Interface;
 using BusinessLogicLayer.Viewmodels.Cart;
+using BusinessLogicLayer.Viewmodels.CartOptions;
 using DataAccessLayer.Application;
 using DataAccessLayer.Entity;
 using Microsoft.AspNetCore.Identity;
@@ -58,21 +59,47 @@ namespace BusinessLogicLayer.Services.Implements
             var Obj = await _dbcontext.Cart.FindAsync(ID);
             return _mapper.Map<CartVM>(Obj);
         }
+
         public async Task<List<CartVM>> GetByUserIDAsync(string IDUser)
         {
             var carts = await _dbcontext.Cart
-           .Where(cart => cart.IDUser == IDUser)
-           .Select(cart => new CartVM
-           {
-               ID = cart.ID,
-               IDUser = cart.IDUser,
-               Description = cart.Description,
-               Status = cart.Status
-           })
-           .ToListAsync();
+                .Where(cart => cart.IDUser == IDUser)
+                .Select(cart => new CartVM
+                {
+                    ID = cart.ID,
+                    IDUser = cart.IDUser,
+                    Description = cart.Description,
+                    Status = cart.Status,
+                    CartOptions = _dbcontext.CartOptions
+                                    .Where(co => co.IDCart == cart.ID)
+                                    .Select(co => new CartOptionsVM
+                                    {
+                                        IDCart = co.IDCart,
+                                        IDOptions = co.IDOptions,
+                                        Quantity = co.Quantity,
+                                        // thêm các trường khác nếu cần
+                                    }).ToList()
+                })
+                .ToListAsync();
 
             return carts;
         }
+
+        //public async Task<List<CartVM>> GetByUserIDAsync(string IDUser)
+        //{
+        //    var carts = await _dbcontext.Cart
+        //   .Where(cart => cart.IDUser == IDUser)
+        //   .Select(cart => new CartVM
+        //   {
+        //       ID = cart.ID,
+        //       IDUser = cart.IDUser,
+        //       Description = cart.Description,
+        //       Status = cart.Status
+        //   })
+        //   .ToListAsync();
+
+        //    return carts;
+        //}
         public Task<bool> RemoveAsync(Guid ID, string IDUserDelete)
         {
             throw new NotImplementedException();
