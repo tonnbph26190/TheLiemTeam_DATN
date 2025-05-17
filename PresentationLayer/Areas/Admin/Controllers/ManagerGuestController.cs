@@ -167,36 +167,17 @@ namespace PresentationLayer.Areas.Admin.Controllers
                     }
                     else
                     {
-                        var errorResponse = await response.Content.ReadAsStringAsync();
+                        var errorMessage = await response.Content.ReadAsStringAsync();
                         // Log the error message or inspect it for further details
                         //return BadRequest($"Server returned error: {errorMessage}");
-                        var errorObject = JsonConvert.DeserializeObject<Dictionary<string, object>>(errorResponse);
-
-                        string errorMessage = "Có lỗi xảy ra khi tạo người dùng.";
-                        if (errorObject != null && errorObject.ContainsKey("errors"))
-                        {
-                            var errors = errorObject["errors"] as Dictionary<string, object>;
-                            if (errors != null)
-                            {
-                                var firstErrorField = errors.Keys.FirstOrDefault();
-                                if (firstErrorField != null && errors[firstErrorField] is JsonElement jsonElement)
-                                {
-                                    var errorArray = jsonElement.EnumerateArray();
-                                    if (errorArray.Any())
-                                    {
-                                        errorMessage = errorArray.First().GetString() ?? errorMessage;
-                                    }
-                                }
-                            }
-                        }
-
                         return Json(new { isSuccess = false, errorMessage = errorMessage });
                     }
 
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    return BadRequest(ex.Message);
+
+                    throw;
                 }
 
             }
