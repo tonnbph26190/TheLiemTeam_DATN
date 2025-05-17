@@ -206,7 +206,7 @@ function fetchProductDetails() {
                 // Gán số lượng tối đa để kiểm soát tăng/giảm
                 maxQuantity = data.stockQuantity;
                 document.getElementById('quantityInput').value = 1;
-                updateButtonsState();
+
 
                 selectedIdOptions = data.idOptions;
                 const quantityInput = document.getElementById('quantityInput');
