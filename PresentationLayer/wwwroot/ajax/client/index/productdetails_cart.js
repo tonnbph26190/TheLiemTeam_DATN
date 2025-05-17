@@ -178,6 +178,34 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         updateButtonsState();
     });
+    // Chặn ký tự không phải số
+    quantityInput.addEventListener('keydown', function (e) {
+        // Cho phép: backspace, delete, tab, escape, enter, arrow keys
+        if (
+            [46, 8, 9, 27, 13].includes(e.keyCode) ||
+            (e.keyCode >= 35 && e.keyCode <= 40) // home, end, arrows
+        ) {
+            return;
+        }
+
+        // Chặn nếu không phải số (keyCode 48–57 là số 0–9; 96–105 là numpad)
+        if ((e.keyCode < 48 || e.keyCode > 57) && (e.keyCode < 96 || e.keyCode > 105)) {
+            e.preventDefault();
+        }
+    });
+
+    // Khi người dùng dán nội dung hoặc dùng kéo thả
+    quantityInput.addEventListener('input', function () {
+        // Loại bỏ mọi ký tự không phải số
+        quantityInput.value = quantityInput.value.replace(/\D/g, '');
+
+        // Đảm bảo giá trị nằm trong khoảng hợp lệ
+        let val = parseInt(quantityInput.value) || 1;
+        if (val > maxQuantity) val = maxQuantity;
+        if (val < 1) val = 1;
+        quantityInput.value = val;
+        updateButtonsState();
+    });
 
     // Cập nhật trạng thái ban đầu
     updateButtonsState();
