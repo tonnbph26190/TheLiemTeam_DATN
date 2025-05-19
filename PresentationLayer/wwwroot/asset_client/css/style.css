@@ -942,6 +942,8 @@ ol {
 .product__item {
     overflow: hidden;
     margin-bottom: 40px;
+    height: 400px !important; /*Thêm: Ép chiều cao cố định */
+    overflow: hidden !important; /*Thêm: Ẩn nội dung tràn */
 }
 
     .product__item.sale .product__item__pic .label {
@@ -1056,6 +1058,8 @@ ol {
 .product__item__text {
     padding-top: 25px;
     position: relative;
+    height: 120px !important; /* Thêm: Giới hạn chiều cao ô mô tả */
+    overflow: hidden !important; /* Thêm: Ẩn nội dung tràn */
 }
 
     .product__item__text a {
@@ -1080,6 +1084,12 @@ ol {
         -webkit-transition: all, 0.3s;
         -o-transition: all, 0.3s;
         transition: all, 0.3s;
+        display: -webkit-box !important; /* Hỗ trợ đa dòng */
+        -webkit-line-clamp: 2 !important; /* Giới hạn 2 dòng */
+        -webkit-box-orient: vertical !important;
+        overflow: hidden !important; /* Thêm */
+        text-overflow: ellipsis !important; /* Thêm  */
+        /*white-space: nowrap !important;*/ /* Thêm 1d */
     }
 
     .product__item__text .rating {
