@@ -14706,13 +14706,38 @@ be a descendant of the grid when it is being dragged.
     /* border-bottom: 1px solid #ddd; */
 }
 
-    .app-menu__item.active, .app-menu__item:hover, .app-menu__item:focus {
+/*    .app-menu__item.active, .app-menu__item:hover, .app-menu__item:focus {
         background: #c6defd;
         text-decoration: none;
         color: rgb(22 22 72);
         box-shadow: none;
         border: 1px solid rgb(22 22 72);
+    }*/
+.app-menu__item {
+    padding: 10px;
+    border-radius: 8px;
+    color: white;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+}
+
+    .app-menu__item:hover,
+    .app-menu__item:focus {
+        background: #c6defd;
+        color: rgb(22, 22, 72);
+        border: 1px solid rgb(22, 22, 72);
+        text-decoration: none;
     }
+
+    .app-menu__item.active {
+        background: #c6defd;
+        color: rgb(22, 22, 72);
+        border: 1px solid rgb(22, 22, 72);
+    }
+
 
 .app-menu__icon {
     font-size: 23px;

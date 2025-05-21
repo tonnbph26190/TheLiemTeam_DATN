@@ -150,66 +150,8 @@ function addOptionListeners() {
     });
 }
 
-document.addEventListener("DOMContentLoaded", function () {
-    const quantityInput = document.getElementById('quantityInput');
-    const incBtn = document.querySelector('.qtybtn.inc');
-    const decBtn = document.querySelector('.qtybtn.dec');
 
-    function updateButtonsState() {
-        const currentQuantity = parseInt(quantityInput.value) || 1;
-        incBtn.disabled = currentQuantity >= maxQuantity;
-        decBtn.disabled = currentQuantity <= 1;
-    }
 
-    incBtn.addEventListener('click', function (event) {
-        event.preventDefault();
-        let value = parseInt(quantityInput.value) || 1;
-        if (value < maxQuantity) {
-            quantityInput.value = value + 1;
-        }
-        updateButtonsState();
-    });
-
-    decBtn.addEventListener('click', function (event) {
-        event.preventDefault();
-        let value = parseInt(quantityInput.value) || 1;
-        if (value > 1) {
-            quantityInput.value = value - 1;
-        }
-        updateButtonsState();
-    });
-    // Chặn ký tự không phải số
-    quantityInput.addEventListener('keydown', function (e) {
-        // Cho phép: backspace, delete, tab, escape, enter, arrow keys
-        if (
-            [46, 8, 9, 27, 13].includes(e.keyCode) ||
-            (e.keyCode >= 35 && e.keyCode <= 40) // home, end, arrows
-        ) {
-            return;
-        }
-
-        // Chặn nếu không phải số (keyCode 48–57 là số 0–9; 96–105 là numpad)
-        if ((e.keyCode < 48 || e.keyCode > 57) && (e.keyCode < 96 || e.keyCode > 105)) {
-            e.preventDefault();
-        }
-    });
-
-    // Khi người dùng dán nội dung hoặc dùng kéo thả
-    quantityInput.addEventListener('input', function () {
-        // Loại bỏ mọi ký tự không phải số
-        quantityInput.value = quantityInput.value.replace(/\D/g, '');
-
-        // Đảm bảo giá trị nằm trong khoảng hợp lệ
-        let val = parseInt(quantityInput.value) || 1;
-        if (val > maxQuantity) val = maxQuantity;
-        if (val < 1) val = 1;
-        quantityInput.value = val;
-        updateButtonsState();
-    });
-
-    // Cập nhật trạng thái ban đầu
-    updateButtonsState();
-});
 
 function fetchProductDetails() {
     const sizeRadio = document.querySelector('.product__details__option__size input[type="radio"]:checked');
@@ -309,6 +251,52 @@ function fetchProductDetails() {
         console.log('Vui lòng chọn cả size và màu.');
     }
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+    const quantityInput = document.getElementById('quantityInput');
+
+    // Chặn nhập ký tự không phải số
+    quantityInput.addEventListener('keydown', function (e) {
+        if (
+            [46, 8, 9, 27, 13].includes(e.keyCode) || // delete, backspace, tab, escape, enter
+            (e.keyCode >= 35 && e.keyCode <= 40)      // home, end, arrows
+        ) {
+            return;
+        }
+
+        // Chặn nếu không phải số
+        if ((e.keyCode < 48 || e.keyCode > 57) && (e.keyCode < 96 || e.keyCode > 105)) {
+            e.preventDefault();
+        }
+    });
+
+    // Giới hạn giá trị khi người dùng nhập
+    quantityInput.addEventListener('input', function () {
+        quantityInput.value = quantityInput.value.replace(/\D/g, ''); // chỉ giữ số
+
+        let val = parseInt(quantityInput.value) || 1;
+
+        if (val > maxQuantity) val = maxQuantity;
+        if (val < 1) val = 1;
+
+        quantityInput.value = val;
+    });
+
+
+    // Cập nhật sau mỗi click (plugin đã xử lý click)
+    const proQty = document.querySelector('.pro-qty');
+    proQty.addEventListener('click', function (e) {
+        if (e.target.classList.contains('qtybtn')) {
+            setTimeout(() => {
+                let val = parseInt(quantityInput.value) || 1;
+                if (val > maxQuantity) val = maxQuantity;
+                if (val < 1) val = 1;
+                quantityInput.value = val;
+            }, 0); // đợi plugin xử lý xong rồi mới giới hạn
+        }
+    });
+});
+
 
 // Hàm hủy chọn và xóa lớp active của size
 function clearActiveSize() {
