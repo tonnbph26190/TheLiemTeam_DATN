@@ -1,4 +1,25 @@
-﻿
+﻿@using Microsoft.AspNetCore.Mvc.Rendering
+@inject Microsoft.AspNetCore.Mvc.Rendering.IHtmlHelper Html
+@functions {
+    public string IsActiveUrl(string path)
+    {
+        var currentPath = Context.Request.Path.ToString().ToLower();
+        return currentPath == path.ToLower() ? "active" : "";
+    }
+    public string IsActive(string controller, string action = null)
+    {
+        var routeData = ViewContext.RouteData;
+        var currentAction = routeData.Values["action"]?.ToString();
+        var currentController = routeData.Values["controller"]?.ToString();
+
+        if (controller == currentController && (action == null || action == currentAction))
+        {
+            return "active";
+        }
+
+        return "";
+    }
+}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -71,14 +92,14 @@
                 <div class="col-lg-9 col-md-9">
                     <nav class="header__menu mobile-menu">
                         <ul>
-                            <li class="active"><a href="/main">Trang chủ</a></li>
-                            <li>
-                                <a asp-action="Index" asp-controller="Category">Sản phẩm</a>
+                            <li class="@IsActiveUrl("/main")"><a href="/main">Trang chủ</a></li>
+                            <li class="@IsActive("Category", "Index")">
+                                <a asp-controller="Category" asp-action="Index">Sản phẩm</a>
                             </li>
-                            <li>
+                            <li class="@IsActive("UserVoucher", "GetVouchersByUserId")">
                                 <a asp-controller="UserVoucher" asp-action="GetVouchersByUserId">Ưu đãi</a>
                             </li>
-                            <li><a href="/contact_hotline">Thông tin liên hệ</a></li>
+                            <li class="@IsActiveUrl("/contact_hotline")"><a href="/contact_hotline">Thông tin liên hệ</a></li>
                         </ul>
                     </nav>
                 </div>

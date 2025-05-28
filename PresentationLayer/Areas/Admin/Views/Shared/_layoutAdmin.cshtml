@@ -1,5 +1,11 @@
 ﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
-
+@functions {
+    string IsActive(string controller)
+    {
+        var currentController = ViewContext.RouteData.Values["Controller"]?.ToString();
+        return currentController == controller ? "active" : "";
+    }
+}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -76,30 +82,37 @@
                 </a>
             </li>
             <li>
-                <a class="app-menu__item active" asp-area="Admin" asp-controller="Home" asp-action="Index">
+                <a class="app-menu__item @IsActive("Home")"
+                   asp-area="Admin" asp-controller="Home" asp-action="Index">
                     <i class='app-menu__icon bx bx-tachometer'></i>
                     <span class="app-menu__label">Bảng điều khiển</span>
                 </a>
             </li>
 
             <li>
-                <a class="app-menu__item " asp-area="Admin" asp-controller="ManagerStaff" asp-action="Index">
+                <a class="app-menu__item @IsActive("ManagerStaff")"
+                   asp-area="Admin" asp-controller="ManagerStaff" asp-action="Index">
                     <i class='app-menu__icon bx bx-id-card'></i>
                     <span class="app-menu__label">Quản lý nhân viên</span>
                 </a>
             </li>
+
             <li>
-                <a class="app-menu__item" asp-area="Admin" asp-controller="ManagerGuest" asp-action="Index">
+                <a class="app-menu__item @IsActive("ManagerGuest")"
+                   asp-area="Admin" asp-controller="ManagerGuest" asp-action="Index">
                     <i class='app-menu__icon bx bx-user-voice'></i>
                     <span class="app-menu__label">Quản lý khách hàng</span>
                 </a>
             </li>
+
             <li>
-                <a class="app-menu__item" asp-area="Admin" asp-controller="ManagerProductDetails" asp-action="Index">
+                <a class="app-menu__item @IsActive("ManagerProductDetails")"
+                   asp-area="Admin" asp-controller="ManagerProductDetails" asp-action="Index">
                     <i class='app-menu__icon bx bx-cube'></i>
                     <span class="app-menu__label">Quản lý sản phẩm</span>
                 </a>
             </li>
+
             <li class="dropdown">
                 <a class="app-menu__item dropdown-toggle" href="#">
                     <i class='app-menu__icon bx bx-purchase-tag-alt'></i>
@@ -107,37 +120,43 @@
                 </a>
                 <ul class="dropdown-menu" style="background-color:#04213d;">
                     <li>
-                        <a class="app-menu__item" asp-area="Admin" asp-controller="Brands" asp-action="Index">
+                        <a class="app-menu__item @IsActive("Brands")"
+                           asp-area="Admin" asp-controller="Brands" asp-action="Index">
                             <i class='app-menu__icon bx bx-copyright'></i>
                             <span class="app-menu__label">Thương hiệu</span>
                         </a>
                     </li>
                     <li>
-                        <a class="app-menu__item" asp-area="Admin" asp-controller="Color" asp-action="Index">
+                        <a class="app-menu__item @IsActive("Color")"
+                           asp-area="Admin" asp-controller="Color" asp-action="Index">
                             <i class='app-menu__icon bx bx-color-fill'></i>
                             <span class="app-menu__label">Màu sắc</span>
                         </a>
                     </li>
                     <li>
-                        <a class="app-menu__item" asp-area="Admin" asp-controller="Materials" asp-action="Index">
+                        <a class="app-menu__item @IsActive("Materials")"
+                           asp-area="Admin" asp-controller="Materials" asp-action="Index">
                             <i class='app-menu__icon bx bx-brush'></i>
                             <span class="app-menu__label">Chất liệu</span>
                         </a>
                     </li>
                     <li>
-                        <a class="app-menu__item" asp-area="Admin" asp-controller="Category" asp-action="Index">
+                        <a class="app-menu__item @IsActive("Category")"
+                           asp-area="Admin" asp-controller="Category" asp-action="Index">
                             <i class='app-menu__icon bx bx-list-ul'></i>
                             <span class="app-menu__label">Danh mục hàng</span>
                         </a>
                     </li>
                     <li>
-                        <a class="app-menu__item" asp-area="Admin" asp-controller="Manufacturers" asp-action="Index">
+                        <a class="app-menu__item @IsActive("Manufacturers")"
+                           asp-area="Admin" asp-controller="Manufacturers" asp-action="Index">
                             <i class='app-menu__icon bx bx-wrench'></i>
                             <span class="app-menu__label">Nhà sản xuất</span>
                         </a>
                     </li>
                     <li>
-                        <a class="app-menu__item" asp-area="Admin" asp-controller="Size" asp-action="Index">
+                        <a class="app-menu__item @IsActive("Size")"
+                           asp-area="Admin" asp-controller="Size" asp-action="Index">
                             <i class='app-menu__icon bx bx-expand-alt'></i>
                             <span class="app-menu__label">Kích thước</span>
                         </a>
@@ -145,28 +164,22 @@
                 </ul>
             </li>
 
-
             <li>
-                <a class="app-menu__item" asp-area="Admin" asp-controller="ManagerOrder" asp-action="Index">
+                <a class="app-menu__item @IsActive("ManagerOrder")"
+                   asp-area="Admin" asp-controller="ManagerOrder" asp-action="Index">
                     <i class='app-menu__icon bx bx-task'></i>
                     <span class="app-menu__label">Quản lý đơn hàng</span>
                 </a>
             </li>
+
             <li>
-                <a class="app-menu__item" asp-area="Admin" asp-controller="Voucher" asp-action="Index">
+                <a class="app-menu__item @IsActive("Voucher")"
+                   asp-area="Admin" asp-controller="Voucher" asp-action="Index">
                     <i class='app-menu__icon bx bx-run'></i>
-                    <span class="app-menu__label">
-                        Quản lý voucher
-                    </span>
+                    <span class="app-menu__label">Quản lý voucher</span>
                 </a>
             </li>
-@*             <li>
-                <a class="app-menu__item" asp-area="Admin" asp-controller="Home" asp-action="Account">
-                    <i class='app-menu__icon bx bx-cog'></i>
-                    <span class="app-menu__label"> Tài khoản của tôi</span>
-                </a>
-            </li>
- *@        </ul>
+       </ul>
     </aside>
     <main class="app-content">
         @RenderBody()
