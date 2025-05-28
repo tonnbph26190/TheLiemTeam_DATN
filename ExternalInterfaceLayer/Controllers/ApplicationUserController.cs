@@ -45,7 +45,6 @@ namespace ExternalInterfaceLayer.Controllers
         [Route("register_with_random_password")]
         public async Task<IActionResult> RegisterWithRandomPasswordAsync([FromBody] RegisterOnly registerOnly, string role)
         {
-
             var result = await _IUserService.RegisterWithRandomPasswordAsync(registerOnly, role);
             if (result.IsSuccess)
             {

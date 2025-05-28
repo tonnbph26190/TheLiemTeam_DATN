@@ -2293,6 +2293,12 @@ document.getElementById('saveUserBtn').addEventListener('click', function () {
                             if (errorResponse.message) {
                                 errorMessage = errorResponse.message;
                             }
+                            else if (errorResponse.errors) {
+                                const firstKey = Object.keys(errorResponse.errors)[0];
+                                if (firstKey && errorResponse.errors[firstKey]) {
+                                    errorMessage = errorResponse.errors[firstKey][0]; // Lấy thông báo lỗi đầu tiên
+                                }
+                            }
                         } catch (e) {
                             // Nếu phản hồi không phải JSON, giữ nguyên thông báo mặc định
                         }
