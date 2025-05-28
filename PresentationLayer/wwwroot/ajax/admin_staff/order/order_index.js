@@ -308,7 +308,7 @@ function orderList(order) {
                         <i class="fas fa-box"> Đã giao hàng</i>
                     </button>
                 ` : ''}
-                 ${item.orderStatus === 0 || item.orderStatus === 1 ? `
+                 ${item.orderStatus === 0 || item.orderStatus === 1 || item.orderType == 1 ?`
                     <button class="btn btn-danger btn-sm cancel" type="button" onclick="updateOrderStatus('4','${item.id}', '${item.hexCode}')" title="Hủy đơn hàng">
                         <i class="fas fa-times-circle"></i> Hủy đơn
                     </button>

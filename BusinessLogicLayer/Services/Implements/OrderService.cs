@@ -11,6 +11,7 @@ using static DataAccessLayer.Entity.Base.EnumBase;
 using static DataAccessLayer.Entity.Voucher;
 using BusinessLogicLayer.Viewmodels.OrderHistory;
 using BusinessLogicLayer.Viewmodels;
+using Org.BouncyCastle.Utilities.Collections;
 
 namespace BusinessLogicLayer.Services.Implements
 {
@@ -945,7 +946,7 @@ namespace BusinessLogicLayer.Services.Implements
                 };
             }
 
-            if (!IsValidStatusTransition(order.OrderStatus, newStatus))
+            if (!IsValidStatusTransition(order.OrderStatus, newStatus) && order.OrderType != OrderType.InStore)
             {
                 return new Result
                 {
