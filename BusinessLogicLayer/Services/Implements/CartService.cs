@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BusinessLogicLayer.Services.Interface;
 using BusinessLogicLayer.Viewmodels.Cart;
+using BusinessLogicLayer.Viewmodels.CartOptions;
 using DataAccessLayer.Application;
 using DataAccessLayer.Entity;
 using Microsoft.AspNetCore.Identity;
@@ -67,7 +68,16 @@ namespace BusinessLogicLayer.Services.Implements
                ID = cart.ID,
                IDUser = cart.IDUser,
                Description = cart.Description,
-               Status = cart.Status
+               Status = cart.Status,
+               CartOptions = _dbcontext.CartOptions
+                                    .Where(co => co.IDCart == cart.ID)
+                                    .Select(co => new CartOptionsVM
+                                    {
+                                        IDCart = co.IDCart,
+                                        IDOptions = co.IDOptions,
+                                        Quantity = co.Quantity,
+                                        // thêm các trường khác nếu cần
+                                    }).ToList()
            })
            .ToListAsync();
 

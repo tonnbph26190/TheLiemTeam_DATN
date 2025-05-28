@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BusinessLogicLayer.Viewmodels.CartOptions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,5 +13,6 @@ namespace BusinessLogicLayer.Viewmodels.Cart
         public string? Description { get; set; }
         public string? IDUser { get; set; }
         public int Status { get; set; }
+        public List<CartOptionsVM> CartOptions { get; set; } = new List<CartOptionsVM>();
     }
 }
